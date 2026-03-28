@@ -1,5 +1,7 @@
 import { MdLock } from "react-icons/md";
 import { TbCategoryFilled } from "react-icons/tb";
+import { FaRegUserCircle } from "react-icons/fa";
+
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 
 const CapsuleSideInfo = () => {
@@ -26,7 +28,7 @@ const CapsuleSideInfo = () => {
         </div>
 
         {/* Category */}
-        <div className="rounded bg-background p-3 text-foreground flex items-center gap-4 ">
+        <div className="rounded bg-background p-3 text-foreground flex items-center gap-4 mb-3">
           <div className="bg-blue-950 h-10 w-8 flex items-center justify-center rounded-md">
             <TbCategoryFilled size={24} color="cyan" />
           </div>
@@ -34,6 +36,18 @@ const CapsuleSideInfo = () => {
           <div>
             <p className="font-medium">Category</p>
             <p className="text-sm text-muted-foreground">Education</p>
+          </div>
+        </div>
+
+        {/* Creator */}
+        <div className="rounded bg-background p-3 text-foreground flex items-center gap-4 mb-3">
+          <div className="bg-amber-950/60 h-10 w-8 flex items-center justify-center rounded-md">
+            <FaRegUserCircle size={20} color="#fbbf24" />
+          </div>
+
+          <div>
+            <p className="font-medium">Creator</p>
+            <p className="text-sm text-muted-foreground">John Doe</p>
           </div>
         </div>
       </CardContent>
