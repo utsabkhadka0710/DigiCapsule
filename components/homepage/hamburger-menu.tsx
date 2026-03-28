@@ -1,6 +1,7 @@
 import { Menu, X } from "lucide-react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
@@ -21,10 +22,27 @@ const HamburgerMenu = ({
 }: HamburgerMenuProps) => {
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-      <SheetTrigger className="md:hidden">
-        {isSheetOpen ? <X size={34} /> : <Menu size={34} />}
+      <SheetTrigger asChild>
+        <button
+          type="button"
+          className="md:hidden inline-flex items-center justify-center rounded-md p-2 select-none"
+          aria-label={isSheetOpen ? "Menu is open" : "Open menu"}
+        >
+          {isSheetOpen ? <X size={30} /> : <Menu size={30} />}
+        </button>
       </SheetTrigger>
-      <SheetContent className="md:hidden">
+      <SheetContent className="md:hidden select-none" showCloseButton={false}>
+        <div className="absolute right-3 top-3">
+          <SheetClose asChild>
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-md"
+              aria-label="Close menu"
+            >
+              <X size={24} />
+            </button>
+          </SheetClose>
+        </div>
         <SheetHeader>
           <SheetTitle></SheetTitle>
           <SheetDescription></SheetDescription>
