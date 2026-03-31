@@ -2,6 +2,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CapsuleType } from "@/lib/types/types";
 import { IoIosLock } from "react-icons/io";
 import { IoMdUnlock } from "react-icons/io";
+import DashboardCapsule from "./capsule/dashboard-capsule";
+import Search from "./search";
 
 const triggers = [
   { value: "all", label: "All Capsules" },
@@ -28,35 +30,50 @@ const TabsComponent = ({
   );
 
   return (
-    <Tabs defaultValue="all">
-      <TabsList className="bg-gray-800 p-1 rounded-xl flex gap-2">
-        {triggers.map(({ value, label, icon }) => (
-          <TabsTrigger
-            key={value}
-            value={value}
-            className="cursor-pointer text-md font-semibold data-[state=active]:bg-white data-[state=active]:text-black rounded-lg"
-          >
-            {icon}
-            {label}
-          </TabsTrigger>
-        ))}
-      </TabsList>
+    <Tabs defaultValue="all" className="w-full">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <TabsList className="bg-gray-800 p-1 rounded-xl flex gap-2 w-fit">
+          {triggers.map(({ value, label, icon }) => (
+            <TabsTrigger
+              key={value}
+              value={value}
+              className="cursor-pointer text-md font-semibold data-[state=active]:bg-white data-[state=active]:text-black rounded-lg"
+            >
+              {icon}
+              {label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
 
-      <TabsContent value="all">
+        <Search />
+      </div>
+
+      <div className="mt-4 border-b-2 border-white/20" />
+
+      <TabsContent
+        value="all"
+        className="mt-6 flex flex-wrap justify-center md:justify-start gap-2"
+      >
         {capsules.map((item) => (
-          <div key={item.id}>{item.title}</div>
+          <DashboardCapsule key={item.id} capsule={item} />
         ))}
       </TabsContent>
 
-      <TabsContent value="locked">
+      <TabsContent
+        value="locked"
+        className="mt-6 flex flex-wrap justify-center md:justify-start gap-2"
+      >
         {lockedCapsules.map((item) => (
-          <div key={item.id}>{item.title}</div>
+          <DashboardCapsule key={item.id} capsule={item} />
         ))}
       </TabsContent>
 
-      <TabsContent value="unlocked">
+      <TabsContent
+        value="unlocked"
+        className="mt-6 flex flex-wrap justify-center md:justify-start gap-2"
+      >
         {unlockedCapsules.map((item) => (
-          <div key={item.id}>{item.title}</div>
+          <DashboardCapsule key={item.id} capsule={item} />
         ))}
       </TabsContent>
     </Tabs>

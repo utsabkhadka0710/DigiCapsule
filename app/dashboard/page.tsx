@@ -2,7 +2,6 @@ import { checkSession } from "@/lib/helper/check-session";
 import CapsuleDetailsSection from "./components/capsule-details-section";
 import { GetUserCapsulesAction } from "@/actions/fetch-user-capsules";
 import TabsComponent from "./components/tabs";
-import Search from "./components/search";
 
 const Dashboard = async () => {
   const session = await checkSession(
@@ -28,10 +27,7 @@ const Dashboard = async () => {
       </div>
 
       <div className="mt-8">
-        <div className="border-b-2 border-white/20 pb-4 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-          <TabsComponent capsules={data || []} loading={!data} />
-          <Search />
-        </div>
+        <TabsComponent capsules={data || []} loading={!data} />
       </div>
     </div>
   );
