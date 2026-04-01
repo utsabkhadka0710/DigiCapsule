@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
 
-
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
   ssr: false,
 });
@@ -31,6 +30,7 @@ export default function MarkdownEditor({
           remarkPlugins: [remarkGfm],
           components: {
             img: () => null,
+            a: ({ children }) => <span>{children}</span>,
           },
         }}
       />

@@ -1,11 +1,46 @@
-export const calculateUnlockTime = (unlockTime: Date) => {
+type UnlockTimeResult = {
+  year: number;
+  month: string;
+  day: number;
+  hour: number;
+  minutes: number;
+  message: string;
+};
+
+export const calculateUnlockTime = (unlockTime: Date): UnlockTimeResult => {
   const currentTime = new Date();
   const unlockDate = new Date(unlockTime);
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const unlockMonthName = monthNames[unlockDate.getMonth()];
+  const unlockYear = unlockDate.getFullYear();
+  const unlockDay = unlockDate.getDate();
+  const unlockHour = unlockDate.getHours();
+  const unlockMinutes = unlockDate.getMinutes();
 
   const timeDifference = unlockDate.getTime() - currentTime.getTime();
 
   if (timeDifference <= 0) {
-    return "Already unlocked";
+    return {
+      year: unlockYear,
+      month: unlockMonthName,
+      day: unlockDay,
+      hour: unlockHour,
+      minutes: unlockMinutes,
+      message: "Already unlocked",
+    };
   }
 
   // Calculate years
@@ -31,24 +66,39 @@ export const calculateUnlockTime = (unlockTime: Date) => {
   // Calculate minutes
   const minutes = Math.floor(remaining / (1000 * 60));
 
+  const result: UnlockTimeResult = {
+    year: unlockYear,
+    month: unlockMonthName,
+    day: unlockDay,
+    hour: unlockHour,
+    minutes: unlockMinutes,
+    message: "Less than a minute",
+  };
+
   if (years > 0) {
-    return `${years} year${years > 1 ? "s" : ""}`;
+    result.message = `${years} year${years > 1 ? "s" : ""}`;
+    return result;
   }
   if (months > 0) {
-    return `${months} month${months > 1 ? "s" : ""}`;
+    result.message = `${months} month${months > 1 ? "s" : ""}`;
+    return result;
   }
   if (weeks > 0) {
-    return `${weeks} week${weeks > 1 ? "s" : ""}`;
+    result.message = `${weeks} week${weeks > 1 ? "s" : ""}`;
+    return result;
   }
   if (days > 0) {
-    return `${days} day${days > 1 ? "s" : ""}`;
+    result.message = `${days} day${days > 1 ? "s" : ""}`;
+    return result;
   }
   if (hours > 0) {
-    return `${hours} hour${hours > 1 ? "s" : ""}`;
+    result.message = `${hours} hour${hours > 1 ? "s" : ""}`;
+    return result;
   }
   if (minutes > 0) {
-    return `${minutes} minute${minutes > 1 ? "s" : ""}`;
+    result.message = `${minutes} minute${minutes > 1 ? "s" : ""}`;
+    return result;
   }
 
-  return "Less than a minute";
+  return result;
 };
