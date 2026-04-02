@@ -13,22 +13,41 @@ interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => void;
+  alertTitle?: string;
+  alertDescription: string;
+  alertActionText: string;
+  alertCancelText: string;
+  actionButtonVarient?: "default" | "destructive";
 }
 
-export function CapsuleCreationAlert({ open, onOpenChange, onConfirm }: Props) {
+export function CapsuleCreationAlert({
+  open,
+  onOpenChange,
+  onConfirm,
+  alertTitle,
+  alertDescription,
+  alertActionText,
+  alertCancelText,
+  actionButtonVarient,
+}: Props) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Confirm Capsule Creation</AlertDialogTitle>
-          <AlertDialogDescription>
-            Once created, this capsule cannot be edited. Please review the
-            details to make sure everything is correct before continuing.
-          </AlertDialogDescription>
+          <AlertDialogTitle>{alertTitle}</AlertDialogTitle>
+          <AlertDialogDescription>{alertDescription}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm} className="cursor-pointer">Create Capsule</AlertDialogAction>
+          <AlertDialogCancel className="cursor-pointer">
+            {alertCancelText}
+          </AlertDialogCancel>
+          <AlertDialogAction
+            onClick={onConfirm}
+            className="cursor-pointer"
+            variant={actionButtonVarient}
+          >
+            {alertActionText}
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

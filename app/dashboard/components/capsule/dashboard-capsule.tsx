@@ -8,12 +8,19 @@ import { FaClock } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
 import { calculateUnlockTime } from "@/lib/helper/calculate-unlock-time";
 import Link from "next/link";
+import { FaTrash } from "react-icons/fa";
+import { CapsuleCreationAlert } from "@/app/create/components/capsule-creation-alert";
 
 const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [openAlert, setOpenAlert] = useState(false);
   const isLocked = capsule.status === "locked";
 
   const unlockTime = calculateUnlockTime(capsule.unlockAt);
+
+  const confirmDelete = () => {
+    console.log("Capsule deleted");
+  };
 
   return (
     <div className="overflow-hidden rounded-xl border border-gray-700 bg-gray-900 shadow-lg w-full max-w-sm md:w-80 lg:w-72">
@@ -28,6 +35,15 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
           className={`object-cover transition ${isLocked ? "brightness-50" : "brightness-90"}`}
           onLoad={() => setIsImageLoaded(true)}
         />
+
+        <button
+          type="button"
+          onClick={() => setOpenAlert(true)}
+          className="absolute bg-black/60 h-fit w-fit top-3 left-3 px-1.5 py-1.5 rounded-md border border-white/30 flex items-center cursor-pointer z-10"
+          aria-label={`Delete capsule ${capsule.title}`}
+        >
+          <FaTrash size={18} color="red" className="cursor-pointer" />
+        </button>
 
         {isLocked && (
           <>
@@ -79,6 +95,16 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
           )}
         </div>
       </div>
+      <CapsuleCreationAlert
+        open={openAlert}
+        onOpenChange={setOpenAlert}
+        onConfirm={confirmDelete}
+        alertTitle="Delete Capsule"
+        alertDescription="Are you sure you want to delete this capsule? This action cannot be undone."
+        alertActionText="Delete"
+        alertCancelText="Cancel"
+        actionButtonVarient="destructive"
+      />
     </div>
   );
 };

@@ -83,6 +83,7 @@ const CreatePage = () => {
         return;
       }
 
+      router.prefetch("/dashboard");
       toast.success("Capsule created successfully.");
       reset();
       router.push("/dashboard");
@@ -321,6 +322,11 @@ const CreatePage = () => {
         open={openDialog}
         onOpenChange={setOpenDialog}
         onConfirm={confirmSubmit}
+        alertTitle="Confirm Capsule Creation"
+        alertDescription="Once created, this capsule cannot be edited. Please review the details to make sure everything is correct before continuing."
+        alertActionText="Create Capsule"
+        alertCancelText="Cancel"
+        actionButtonVarient="default"
       />
     </div>
   );
