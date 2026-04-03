@@ -13,10 +13,10 @@ import ErrorContainer from "./components/error-container";
 import FileUpload from "./components/file-uploads";
 import { toast } from "sonner";
 import { checkSession } from "@/lib/helper/check-session";
-import { CreateCapsuleAction } from "@/actions/create-capsule";
+import { CreateCapsuleAction } from "@/actions/capsule";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CapsuleCreationAlert } from "./components/capsule-creation-alert";
+import { AlertBox } from "../../components/ui/shared/alert-box";
 import { UploadedAsset } from "@/lib/types/types";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
 
@@ -318,7 +318,7 @@ const CreatePage = () => {
           </div>
         </form>
       </div>
-      <CapsuleCreationAlert
+      <AlertBox
         open={openDialog}
         onOpenChange={setOpenDialog}
         onConfirm={confirmSubmit}

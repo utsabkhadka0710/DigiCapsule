@@ -5,6 +5,7 @@ import { db } from "@/lib/db-edge";
 import { checkSession } from "@/lib/helper/check-session";
 import { ServerCapsuleSchema } from "@/lib/validators/capsules";
 import { revalidatePath } from "next/cache";
+import { eq, and } from "drizzle-orm";
 
 export async function CreateCapsuleAction(data: unknown) {
   try {
@@ -50,5 +51,39 @@ export async function CreateCapsuleAction(data: unknown) {
         success: false,
         message: "Failed to create a capsule"
     }
+  }
+}
+
+
+export async function DeleteCapsuleAction(capsuleId: string) {
+  try {
+    const session = await checkSession(
+      "You need to be logged in to delete a capsule.",
+    );
+
+     await db
+      .delete(capsule)
+      .where(
+        and(
+          eq(capsule.id, capsuleId),
+          eq(capsule.userId, session.user.id)
+        )
+      );
+
+    revalidatePath("/dashboard");
+
+    return {
+      success: true,
+      message: "Capsule deleted successfully.",
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to delete the capsule.";
+    console.error(message);
+
+    return {
+      success: false,
+      message: "Failed to delete the capsule",
+    };
   }
 }

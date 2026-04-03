@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Spinner } from "@/components/ui/spinner";
 
 interface Props {
   open: boolean;
@@ -18,9 +19,11 @@ interface Props {
   alertActionText: string;
   alertCancelText: string;
   actionButtonVarient?: "default" | "destructive";
+  isLoading?: boolean;
+  closeOnConfirm?: boolean;
 }
 
-export function CapsuleCreationAlert({
+export function AlertBox({
   open,
   onOpenChange,
   onConfirm,
@@ -29,24 +32,36 @@ export function CapsuleCreationAlert({
   alertActionText,
   alertCancelText,
   actionButtonVarient,
+  isLoading = false,
+  closeOnConfirm = true,
 }: Props) {
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
+    <AlertDialog
+      open={open}
+      onOpenChange={(newOpen) => !isLoading && onOpenChange(newOpen)}
+    >
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{alertTitle}</AlertDialogTitle>
           <AlertDialogDescription>{alertDescription}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className="cursor-pointer">
+          <AlertDialogCancel className="cursor-pointer" disabled={isLoading}>
             {alertCancelText}
           </AlertDialogCancel>
           <AlertDialogAction
-            onClick={onConfirm}
+            onClick={(event) => {
+              if (!closeOnConfirm) {
+                event.preventDefault();
+              }
+
+              onConfirm();
+            }}
             className="cursor-pointer"
             variant={actionButtonVarient}
+            disabled={isLoading}
           >
-            {alertActionText}
+            {isLoading ? <Spinner /> : alertActionText}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

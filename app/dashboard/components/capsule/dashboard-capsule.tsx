@@ -9,17 +9,37 @@ import { FaCheckCircle } from "react-icons/fa";
 import { calculateUnlockTime } from "@/lib/helper/calculate-unlock-time";
 import Link from "next/link";
 import { FaTrash } from "react-icons/fa";
-import { CapsuleCreationAlert } from "@/app/create/components/capsule-creation-alert";
+import { AlertBox } from "@/components/ui/shared/alert-box";
+import { DeleteCapsuleAction } from "@/actions/capsule";
+import { toast } from "sonner";
 
 const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const isLocked = capsule.status === "locked";
 
   const unlockTime = calculateUnlockTime(capsule.unlockAt);
 
-  const confirmDelete = () => {
-    console.log("Capsule deleted");
+  const confirmDelete = async () => {
+    setIsDeleting(true);
+
+    try {
+      const deleteCapsule = await DeleteCapsuleAction(capsule.id);
+
+      if (deleteCapsule.success) {
+        toast.success(deleteCapsule.message);
+        setOpenAlert(false);
+        return;
+      }
+
+      toast.error(deleteCapsule.message);
+    } catch (error) {
+      toast.error("Error deleting capsule.");
+      console.error("Error deleting capsule:", error);
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (
@@ -95,7 +115,7 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
           )}
         </div>
       </div>
-      <CapsuleCreationAlert
+      <AlertBox
         open={openAlert}
         onOpenChange={setOpenAlert}
         onConfirm={confirmDelete}
@@ -104,6 +124,8 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
         alertActionText="Delete"
         alertCancelText="Cancel"
         actionButtonVarient="destructive"
+        isLoading={isDeleting}
+        closeOnConfirm={false}
       />
     </div>
   );
