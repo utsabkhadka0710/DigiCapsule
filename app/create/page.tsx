@@ -54,7 +54,7 @@ const CreatePage = () => {
       let uploadedAssets: UploadedAsset[] = [];
 
       if (filesToUpload.length > 0) {
-        toast.loading("Uploading files to Cloudinary...", {
+        toast.loading("Uploading files...", {
           id: "cloudinary-upload",
         });
 

@@ -17,43 +17,42 @@ export async function CreateCapsuleAction(data: unknown) {
 
     const { files, ...capsuleData } = validateFormFields;
 
-    const createdCapsule = await db.insert(capsule).values({
-      ...capsuleData,
-      userId: session.user.id,
-    }).returning({id: capsule.id});
+    const createdCapsule = await db
+      .insert(capsule)
+      .values({
+        ...capsuleData,
+        userId: session.user.id,
+      })
+      .returning({ id: capsule.id });
 
+    if (files && files.length > 0) {
+      await db.insert(capsuleFiles).values(
+        files.map((file) => ({
+          capsuleId: createdCapsule[0].id,
+          url: file.url,
+          publicId: file.publicId,
+          fileType: file.fileType,
+        })),
+      );
+    }
 
+    revalidatePath("/dashboard");
 
-  if(files && files.length>0){
-    await db.insert(capsuleFiles).values(
-        files.map(file => ({
-            capsuleId: createdCapsule[0].id,
-            url: file.url,
-            publicId: file.publicId,
-            fileType: file.fileType
-        }))
-    )
-  }
-
-  revalidatePath("/dashboard")
-
-  return {
-    success: true,
-    message: "Capsule created successfully."
-  }
-
+    return {
+      success: true,
+      message: "Capsule created successfully.",
+    };
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to create a capsule.";
     console.error(message);
 
-    return{
-        success: false,
-        message: "Failed to create a capsule"
-    }
+    return {
+      success: false,
+      message: "Failed to create a capsule",
+    };
   }
 }
-
 
 export async function DeleteCapsuleAction(capsuleId: string) {
   try {
@@ -61,13 +60,10 @@ export async function DeleteCapsuleAction(capsuleId: string) {
       "You need to be logged in to delete a capsule.",
     );
 
-     await db
+    await db
       .delete(capsule)
       .where(
-        and(
-          eq(capsule.id, capsuleId),
-          eq(capsule.userId, session.user.id)
-        )
+        and(eq(capsule.id, capsuleId), eq(capsule.userId, session.user.id)),
       );
 
     revalidatePath("/dashboard");

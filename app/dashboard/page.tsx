@@ -1,6 +1,6 @@
 import { checkSession } from "@/lib/helper/check-session";
 import CapsuleDetailsSection from "./components/capsule-details-section";
-import { GetUserCapsulesAction } from "@/actions/fetch-user-capsules";
+import { GetUserCapsulesAction } from "@/actions/fetch-capsules";
 import TabsComponent from "./components/tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
