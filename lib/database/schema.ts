@@ -127,7 +127,10 @@ export const capsule = pgTable(
     index("capsule_unlockAt_idx").on(table.unlockAt),
     index("capsule_status_idx").on(table.status),
 
-    check("unlock_at_future_check", sql`${table.unlockAt} > now()`),
+    check(
+      "unlock_at_future_check",
+      sql`${table.unlockAt} > now() OR ${table.status} = 'unlocked'`,
+    ),
   ],
 );
 

@@ -1,0 +1,1 @@
+ALTER TABLE "capsule" ADD CONSTRAINT "unlock_at_future_check" CHECK ("capsule"."unlock_at" > now() OR "capsule"."status" = 'unlocked');

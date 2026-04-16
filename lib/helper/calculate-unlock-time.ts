@@ -39,7 +39,7 @@ export const calculateUnlockTime = (unlockTime: Date): UnlockTimeResult => {
       day: unlockDay,
       hour: unlockHour,
       minutes: unlockMinutes,
-      message: "Already unlocked",
+      message: "less than 30 minutes",
     };
   }
 
