@@ -4,7 +4,11 @@ import { and, eq, lte } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const bearerToken = req.headers.get("Authorization")?.split(" ")[1];
+  const authHeader = req.headers.get("Authorization");
+
+  const bearerToken = authHeader?.startsWith("Bearer ")
+    ? authHeader.slice(7)
+    : null;
 
   if (!bearerToken || bearerToken !== process.env.CRON_BEARER_TOKEN) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
