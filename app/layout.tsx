@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/layouts/header";
-import Footer from "@/components/layouts/footer";
 import { Toaster } from "@/components/ui/sonner";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -33,17 +31,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="sticky top-0 z-100 bg-gray-900">
-          <Header />
-        </div>
-
-        <main className=" mx-auto px-4 md:max-w-11/12 lg:max-w-4/5">
-          {children}
-        </main>
+        {children}
         <Toaster position="top-right" />
-        <div>
-          <Footer />
-        </div>
       </body>
     </html>
   );
