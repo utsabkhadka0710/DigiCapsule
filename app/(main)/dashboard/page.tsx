@@ -28,7 +28,7 @@ const Dashboard = async () => {
         />
       </div>
 
-      <div className="mt-8">
+      <div className="mt-8 mb-4">
         <TabsComponent capsules={data || []} loading={!data} />
       </div>
       {!data ||
