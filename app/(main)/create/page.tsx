@@ -16,7 +16,7 @@ import { checkSession } from "@/lib/helper/check-session";
 import { CreateCapsuleAction } from "@/actions/capsule";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { AlertBox } from "../../components/ui/shared/alert-box";
+import { AlertBox } from "@/components/ui/shared/alert-box";
 import { UploadedAsset } from "@/lib/types/types";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
 

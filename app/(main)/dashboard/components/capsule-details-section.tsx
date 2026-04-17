@@ -24,7 +24,10 @@ const CapsuleDetailsSection = ({
           <span className="text-white font-semibold">
             {capsuleDetails.lockedCapsules} locked
           </span>{" "}
-          capsules opening soon.
+          capsule{capsuleDetails.lockedCapsules !== 1 ? "s" : ""} and{" "}
+          <span className="text-white font-semibold">
+            {capsuleDetails.unlockedCapsules} unlocked
+          </span>
         </p>
       </div>
 
