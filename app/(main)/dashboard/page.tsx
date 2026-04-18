@@ -4,6 +4,7 @@ import { GetUserCapsulesAction } from "@/actions/fetch-capsules";
 import TabsComponent from "./components/tabs";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import PreviewNotice from "./components/preview-notice";
 
 const Dashboard = async () => {
   const session = await checkSession(
@@ -29,6 +30,7 @@ const Dashboard = async () => {
       </div>
 
       <div className="mt-8 mb-4">
+        <PreviewNotice />
         <TabsComponent capsules={data || []} loading={!data} />
       </div>
       {!data ||

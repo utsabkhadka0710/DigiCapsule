@@ -12,6 +12,7 @@ import { FaTrash } from "react-icons/fa";
 import { AlertBox } from "@/components/ui/shared/alert-box";
 import { DeleteCapsuleAction } from "@/actions/capsule";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -95,10 +96,21 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
 
         <div className="mt-6 text-sm text-gray-500">
           {isLocked ? (
-            <span>
-              <FaClock className="inline-block mr-2" />
-              Opens in {unlockTime.message}
-            </span>
+            <div className="flex items-center justify-between">
+              <span>
+                <FaClock className="inline-block mr-2" />
+                Opens in {unlockTime.message}
+              </span>
+
+              <Button asChild variant="outline">
+                <Link
+                  href={`/preview/${capsule.id}`}
+                  className="text-white font-semibold uppercase"
+                >
+                  Preview
+                </Link>
+              </Button>
+            </div>
           ) : (
             <div className="flex items-center justify-between">
               <div>

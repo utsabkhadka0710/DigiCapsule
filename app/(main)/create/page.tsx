@@ -327,6 +327,8 @@ const CreatePage = () => {
         alertActionText="Create Capsule"
         alertCancelText="Cancel"
         actionButtonVarient="default"
+        otherInfo="You can only preview the capsule after it's created, so make sure all the information is accurate."
+        actionDelaySeconds={5}
       />
     </div>
   );
