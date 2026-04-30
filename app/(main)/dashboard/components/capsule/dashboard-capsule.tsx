@@ -44,7 +44,7 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-700 bg-gray-900 shadow-lg w-full max-w-sm md:w-80 lg:w-72">
+    <div className="w-full overflow-hidden rounded-xl border border-gray-700 bg-gray-900 shadow-lg">
       {/* Image div */}
       <div className="relative h-44 w-full">
         <Image
@@ -53,7 +53,7 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
           loading="eager"
           fill
           sizes="(max-width: 768px) 100vw, 320px"
-          className={`object-cover transition ${isLocked ? "brightness-50" : "brightness-90"}`}
+          className={`object-cover transition ${isLocked ? "brightness-25" : "brightness-90"}`}
           onLoad={() => setIsImageLoaded(true)}
         />
 

@@ -19,6 +19,7 @@ import { useState } from "react";
 import { AlertBox } from "@/components/ui/shared/alert-box";
 import { UploadedAsset } from "@/lib/types/types";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
+import BackToDashboard from "@/components/ui/shared/back-to-dashboard";
 
 const CreatePage = () => {
   const router = useRouter();
@@ -104,18 +105,8 @@ const CreatePage = () => {
 
   return (
     <div className="min-h-[90vh] mx-auto max-w-3xl md:min-h-[85vh] lg:min-h-[80vh]">
-      <div className="max-w-fit mt-4">
-        {/* Back to dashboard */}
-        <Link
-          href={"/dashboard"}
-          className="text-sm text-text-secondary hover:text-primary transition-colors duration-200 text-center w-full"
-        >
-          <div className="flex items-center mt-8 justify-center gap-2 text-lg font-medium text-primary hover:text-[#3b62fb]">
-            <FaArrowLeft />
-            <span>Back to Dashboard</span>
-          </div>
-        </Link>
-      </div>
+      {/* Back to dashboard */}
+      <BackToDashboard />
 
       <div className="mt-4">
         <h3 className="text-4xl font-extrabold">Create New Capsule</h3>

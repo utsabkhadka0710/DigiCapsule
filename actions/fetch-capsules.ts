@@ -1,7 +1,7 @@
 import { capsule } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { checkSession } from "@/lib/helper/check-session";
-import { eq, SQLWrapper } from "drizzle-orm";
+import { and, eq, SQLWrapper } from "drizzle-orm";
 
 export const GetUserCapsulesAction = async () => {
   try {
@@ -36,12 +36,16 @@ export const GetCapsuleFromId = async ({
   capsuleId: SQLWrapper;
 }) => {
   try {
-    await checkSession("You need to be logged in to fetch capsules.");
+    const session = await checkSession(
+      "You need to be logged in to fetch capsules.",
+    );
 
     const fetchedCapsule = await db
       .select()
       .from(capsule)
-      .where(eq(capsuleId, capsule.id));
+      .where(
+        and(eq(capsuleId, capsule.id), eq(capsule.userId, session.user.id)),
+      );
 
     return {
       success: true,
@@ -50,7 +54,7 @@ export const GetCapsuleFromId = async ({
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Failed to fetch user capsules.";
-    console.error(message);
+    console.log(message);
 
     return {
       success: false,

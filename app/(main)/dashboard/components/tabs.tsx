@@ -52,7 +52,7 @@ const TabsComponent = ({
 
       <TabsContent
         value="all"
-        className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="mt-6 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {capsules.map((item) => (
           <DashboardCapsule key={item.id} capsule={item} />
@@ -61,7 +61,7 @@ const TabsComponent = ({
 
       <TabsContent
         value="locked"
-        className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="mt-6 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {lockedCapsules.map((item) => (
           <DashboardCapsule key={item.id} capsule={item} />
@@ -70,7 +70,7 @@ const TabsComponent = ({
 
       <TabsContent
         value="unlocked"
-        className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        className="mt-6 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {unlockedCapsules.map((item) => (
           <DashboardCapsule key={item.id} capsule={item} />
