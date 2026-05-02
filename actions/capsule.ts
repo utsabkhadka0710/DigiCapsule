@@ -2,17 +2,22 @@
 
 import { capsule, capsuleFiles } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
-import { checkSession } from "@/lib/helper/check-session";
+import { getSession } from "@/lib/helper/get-session";
 import { ServerCapsuleSchema } from "@/lib/validators/capsules";
 import { revalidatePath } from "next/cache";
 import { eq, and } from "drizzle-orm";
 
 export async function CreateCapsuleAction(data: unknown) {
-  try {
-    const session = await checkSession(
-      "You need to be logged in to create a capsule.",
-    );
+  const session = await getSession();
 
+  if (!session) {
+    return {
+      success: false,
+      message: "You need to be logged in to create a capsule.",
+    };
+  }
+
+  try {
     const validateFormFields = ServerCapsuleSchema.parse(data);
 
     const { files, ...capsuleData } = validateFormFields;
@@ -55,11 +60,16 @@ export async function CreateCapsuleAction(data: unknown) {
 }
 
 export async function DeleteCapsuleAction(capsuleId: string) {
-  try {
-    const session = await checkSession(
-      "You need to be logged in to delete a capsule.",
-    );
+  const session = await getSession();
 
+  if (!session) {
+    return {
+      success: false,
+      message: "You need to be logged in to delete a capsule.",
+    };
+  }
+
+  try {
     await db
       .delete(capsule)
       .where(

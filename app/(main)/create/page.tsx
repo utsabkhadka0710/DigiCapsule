@@ -12,7 +12,6 @@ import { Button } from "@/components/ui/button";
 import ErrorContainer from "./components/error-container";
 import FileUpload from "./components/file-uploads";
 import { toast } from "sonner";
-import { checkSession } from "@/lib/helper/check-session";
 import { CreateCapsuleAction } from "@/actions/capsule";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -49,8 +48,6 @@ const CreatePage = () => {
     setIsSubmitting(true);
 
     try {
-      await checkSession("You need to be logged in to create a capsule.");
-
       const filesToUpload = formData.files ?? [];
       let uploadedAssets: UploadedAsset[] = [];
 
@@ -80,7 +77,10 @@ const CreatePage = () => {
       const capsuleCreationResponse = await CreateCapsuleAction(payload);
 
       if (!capsuleCreationResponse.success) {
-        toast.error("Failed to create a capsule. Try again.");
+        toast.error(
+          capsuleCreationResponse.message ??
+            "Failed to create a capsule. Try again.",
+        );
         return;
       }
 

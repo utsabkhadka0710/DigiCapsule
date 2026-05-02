@@ -1,4 +1,3 @@
-import { checkSession } from "@/lib/helper/check-session";
 import CapsuleDetailsSection from "./components/capsule-details-section";
 import { GetUserCapsulesAction } from "@/actions/fetch-capsules";
 import TabsComponent from "./components/tabs";
@@ -7,11 +6,7 @@ import Link from "next/link";
 import PreviewNotice from "./components/preview-notice";
 
 const Dashboard = async () => {
-  const session = await checkSession(
-    "You need to be logged in to access dashboard.",
-  );
-
-  const { data } = await GetUserCapsulesAction();
+  const { data, session } = await GetUserCapsulesAction();
 
   const lockedCapsules = data
     ? data.filter((capsule) => capsule.status === "locked")
@@ -21,7 +16,7 @@ const Dashboard = async () => {
     <div className=" mt-4 min-h-[90vh] md:min-h-[85vh] lg:min-h-[80vh]">
       <div>
         <CapsuleDetailsSection
-          name={session.user.name}
+          name={session?.user.name ?? "User"}
           capsuleDetails={{
             lockedCapsules: lockedCapsules.length,
             unlockedCapsules: data ? data.length - lockedCapsules.length : 0,

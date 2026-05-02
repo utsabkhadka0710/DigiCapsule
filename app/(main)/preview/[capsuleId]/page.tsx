@@ -11,7 +11,7 @@ const PreviewPage = async ({
 }) => {
   const capsuleId = (await params).capsuleId;
 
-  const capsule = await GetCapsuleFromId({ capsuleId: sql`${capsuleId}` });
+  const capsule = await GetCapsuleFromId({ capsuleId: capsuleId });
 
   if (!capsule.data || capsule.data.length === 0) {
     return (

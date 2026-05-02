@@ -1,14 +1,20 @@
-import { capsule } from "@/lib/database/schema";
+import { capsule, capsuleFiles } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
-import { checkSession } from "@/lib/helper/check-session";
-import { and, eq, SQLWrapper } from "drizzle-orm";
+import { getSession } from "@/lib/helper/get-session";
+import { and, eq } from "drizzle-orm";
 
 export const GetUserCapsulesAction = async () => {
-  try {
-    const session = await checkSession(
-      "You need to be logged in to fetch capsules.",
-    );
+  const session = await getSession();
 
+  if (!session) {
+    return {
+      success: false,
+      message: "You need to be logged in to fetch capsules.",
+      session: null,
+    };
+  }
+
+  try {
     const userCapsules = await db
       .select()
       .from(capsule)
@@ -17,6 +23,7 @@ export const GetUserCapsulesAction = async () => {
     return {
       success: true,
       data: userCapsules,
+      session,
     };
   } catch (error) {
     const message =
@@ -26,6 +33,7 @@ export const GetUserCapsulesAction = async () => {
     return {
       success: false,
       message: "Failed to fetch user capsules",
+      session,
     };
   }
 };
@@ -33,18 +41,23 @@ export const GetUserCapsulesAction = async () => {
 export const GetCapsuleFromId = async ({
   capsuleId,
 }: {
-  capsuleId: SQLWrapper;
+  capsuleId: string;
 }) => {
-  try {
-    const session = await checkSession(
-      "You need to be logged in to fetch capsules.",
-    );
+  const session = await getSession();
 
+  if (!session) {
+    return {
+      success: false,
+      message: "You need to be logged in to fetch capsules.",
+    };
+  }
+
+  try {
     const fetchedCapsule = await db
       .select()
       .from(capsule)
       .where(
-        and(eq(capsuleId, capsule.id), eq(capsule.userId, session.user.id)),
+        and(eq(capsule.id, capsuleId), eq(capsule.userId, session.user.id)),
       );
 
     return {
@@ -59,6 +72,38 @@ export const GetCapsuleFromId = async ({
     return {
       success: false,
       message: "Failed to fetch capsule",
+    };
+  }
+};
+
+export const GetCapsuleFiles = async ({ capsuleId }: { capsuleId: string }) => {
+  const session = await getSession();
+
+  if (!session) {
+    return {
+      success: false,
+      message: "You need to be logged in to fetch capsule files.",
+    };
+  }
+
+  try {
+    const fetchedCapsuleFiles = await db
+      .select()
+      .from(capsuleFiles)
+      .where(eq(capsuleFiles.capsuleId, capsuleId));
+
+    return {
+      success: true,
+      data: fetchedCapsuleFiles,
+    };
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to fetch capsule files.";
+    console.error(message);
+
+    return {
+      success: false,
+      message: "Failed to fetch capsule files",
     };
   }
 };
