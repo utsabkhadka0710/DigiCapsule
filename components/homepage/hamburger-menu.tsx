@@ -14,8 +14,7 @@ import HamburgerSignupButton from "./hamburger-signup-button";
 const HamburgerMenu = ({
   isSheetOpen,
   setIsSheetOpen,
-  isPending,
-  data,
+  session,
   renderNavItems,
   loggedInNavItems,
   navItems,
@@ -53,15 +52,13 @@ const HamburgerMenu = ({
           </div>
 
           <ul className="pb-4 mt-4 border-b items-center font-bold text-lg flex flex-col gap-3">
-            {isPending
-              ? "Loading.."
-              : data?.user
-                ? renderNavItems(loggedInNavItems)
-                : renderNavItems(navItems)}
+            {session?.user
+              ? renderNavItems(loggedInNavItems)
+              : renderNavItems(navItems)}
           </ul>
         </div>
         <div className="flex items-center justify-center">
-          {isPending ? null : data?.user ? null : (
+          {session?.user ? null : (
             <HamburgerSignupButton setIsSheetOpen={setIsSheetOpen} />
           )}
         </div>

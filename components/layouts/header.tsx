@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession } from "@/lib/auth-client";
+import { AuthData, NavItem } from "@/lib/types/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHourglassStart } from "react-icons/fa6";
@@ -8,11 +8,9 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import HamburgerMenu from "../homepage/hamburger-menu";
 
-const Header = () => {
+const Header = ({ session }: { session: AuthData | null }) => {
   const pathname = usePathname();
-  const { data, isPending } = useSession();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const isLoggedInRoute = !(pathname === "/" || pathname === "/login");
 
   const loggedInNavItems = [
     { href: "/dashboard", label: "Dashboard" },
@@ -21,7 +19,7 @@ const Header = () => {
     { href: "/settings", label: "Settings" },
   ];
 
-  const navItems = [
+  const navItems: NavItem[] = [
     { href: "/#features", label: "Features" },
     { href: "/#how-it-works", label: "How it works" },
   ];
@@ -83,19 +81,17 @@ const Header = () => {
         {/* Navigation */}
         <div>
           <ul className="hidden md:flex md:items-center md:gap-6">
-            {isPending
-              ? isLoggedInRoute
-                ? renderNavItems(loggedInNavItems)
-                : renderNavItems(navItems)
-              : data?.user
-                ? renderNavItems(loggedInNavItems)
-                : renderNavItems(navItems)}
+            {session?.user
+              ? renderNavItems(loggedInNavItems)
+              : renderNavItems(navItems)}
           </ul>
         </div>
 
         <div className="hidden md:block">
-          {isPending ? null : data?.user ? (
-            "Profile"
+          {session?.user ? (
+            <Button asChild className="px-4 py-2 text-lg shadow">
+              <Link href={"/profile"}>Profile</Link>
+            </Button>
           ) : (
             <Button asChild className="px-4 py-2 text-lg shadow">
               <Link href={"/login"}>Sign up</Link>
@@ -105,8 +101,7 @@ const Header = () => {
 
         <div className="pr-4 md:hidden">
           <HamburgerMenu
-            isPending={isPending}
-            data={data}
+            session={session}
             isSheetOpen={isSheetOpen}
             loggedInNavItems={loggedInNavItems}
             navItems={navItems}

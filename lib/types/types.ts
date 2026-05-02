@@ -44,8 +44,7 @@ export interface NavItem {
 export interface HamburgerMenuProps {
   isSheetOpen: boolean;
   setIsSheetOpen: (open: boolean) => void;
-  isPending: boolean;
-  data: AuthData | null;
+  session: AuthData | null;
   renderNavItems: (items: NavItem[]) => React.ReactNode;
   loggedInNavItems: NavItem[];
   navItems: NavItem[];
