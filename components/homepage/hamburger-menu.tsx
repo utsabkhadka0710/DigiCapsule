@@ -31,14 +31,14 @@ const HamburgerMenu = ({
         </button>
       </SheetTrigger>
       <SheetContent className="md:hidden select-none" showCloseButton={false}>
-        <div className="absolute right-3 top-3">
+        <div className="fixed top-6 right-4 z-50">
           <SheetClose asChild>
             <button
               type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md"
+              className="inline-flex items-center justify-center rounded-md p-2"
               aria-label="Close menu"
             >
-              <X size={24} />
+              <X size={40} />
             </button>
           </SheetClose>
         </div>
