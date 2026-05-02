@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 
-const protectedRoutes = ["/dashboard", "/create", "/profile", "/settings"];
+const protectedRoutes = [
+  "/dashboard",
+  "/create",
+  "/profile",
+  "/settings",
+  "/preview/:path*",
+];
 const authRoutes = ["/", "/login"];
 
 export async function proxy(request: NextRequest) {
@@ -11,13 +17,16 @@ export async function proxy(request: NextRequest) {
     headers: request.headers,
   });
 
+  const isProtectedRoute =
+    protectedRoutes.includes(pathname) || pathname.startsWith("/preview");
+
   const isAuthenticated = !!session?.user;
 
   if (isAuthenticated && authRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
-  if (!isAuthenticated && protectedRoutes.includes(pathname)) {
+  if (!isAuthenticated && isProtectedRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
@@ -25,5 +34,13 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/login", "/dashboard", "/create", "/profile", "/settings"],
+  matcher: [
+    "/",
+    "/login",
+    "/dashboard",
+    "/create",
+    "/profile",
+    "/settings",
+    "/preview/:path*",
+  ],
 };
