@@ -21,7 +21,8 @@ const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
     accept: {
       "image/*": [],
       "video/*": [],
-      "application/pdf": [".pdf"],
+      "audio/mpeg": [".mp3"],
+      "audio/*": [],
     },
     onDrop: (acceptedFiles) => {
       const newFiles = [...value, ...acceptedFiles].slice(0, 2);
@@ -35,7 +36,7 @@ const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
 
         switch (el.errors[0].code) {
           case "file-invalid-type":
-            message = "File must be images or videos or PDFs.";
+            message = "File must be images, videos, or MP3 audio.";
             break;
 
           case "file-too-large":
@@ -65,7 +66,7 @@ const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
             background: "#ff4d4f",
             color: "white",
             fontSize: 18,
-            fontWeight: 600
+            fontWeight: 600,
           },
         });
       });
@@ -93,7 +94,7 @@ const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
           <span className="text-muted-foreground text-xs ml-1">(Optional)</span>
         </p>
         <div className="mt-2 space-y-1 text-xs text-muted-foreground">
-          <p>Images, videos, and PDF documents are supported</p>
+          <p>Images, videos, and MP3 audio are supported</p>
           <p>Limit 2 files, up to 30 MB per file</p>
         </div>
       </div>
