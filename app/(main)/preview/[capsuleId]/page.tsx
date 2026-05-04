@@ -4,6 +4,7 @@ import Markdown from "react-markdown";
 import { IoImagesOutline } from "react-icons/io5";
 import { LuFileText } from "react-icons/lu";
 import remarkGfm from "remark-gfm";
+import { isPreviewAvailable } from "@/lib/helper/is-preview-available";
 
 const getMediaLabel = (fileType: string) => {
   switch (fileType.toLowerCase()) {
@@ -36,7 +37,13 @@ const PreviewPage = async ({
     );
   }
 
-  if (capsule.data[0].createdAt < new Date(Date.now() - 24 * 60 * 60 * 1000)) {
+  if (capsule.data[0].status === "unlocked") {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <p className="text-gray-400">This capsule is already unlocked.</p>
+      </div>
+    );
+  } else if (!isPreviewAvailable(capsule.data[0].createdAt)) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center">
         <p className="text-gray-400">

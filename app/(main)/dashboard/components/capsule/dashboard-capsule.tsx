@@ -13,6 +13,7 @@ import { AlertBox } from "@/components/ui/shared/alert-box";
 import { DeleteCapsuleAction } from "@/actions/capsule";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { isPreviewAvailable } from "@/lib/helper/is-preview-available";
 
 const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
@@ -96,23 +97,32 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
 
         <div className="mt-6 text-sm text-gray-500">
           {isLocked ? (
-            <div className="flex items-center justify-between">
-              <span>
-                <FaClock className="inline-block mr-2" />
-                Opens in {unlockTime.message}
-              </span>
+            isPreviewAvailable(capsule.createdAt) ? (
+              <div className="flex items-center justify-between">
+                <span>
+                  <FaClock className="inline-block mr-2" />
+                  Opens in {unlockTime.message}
+                </span>
 
-              <Button asChild variant="outline">
-                <Link
-                  href={`/preview/${capsule.id}`}
-                  className="text-white font-semibold uppercase"
-                >
-                  Preview
-                </Link>
-              </Button>
-            </div>
+                <Button asChild variant="outline">
+                  <Link
+                    href={`/preview/${capsule.id}`}
+                    className="text-white font-semibold uppercase"
+                  >
+                    Preview
+                  </Link>
+                </Button>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between mb-4">
+                <span>
+                  <FaClock className="inline-block mr-2" />
+                  Opens in {unlockTime.message}
+                </span>
+              </div>
+            )
           ) : (
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <FaCheckCircle className="inline-block mr-2" />
                 <span className="text-green-500 font-semibold">
