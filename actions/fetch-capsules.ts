@@ -1,7 +1,8 @@
-import { capsule, capsuleFiles } from "@/lib/database/schema";
+import { capsule, capsuleFiles, user } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { getSession } from "@/lib/helper/get-session";
 import { and, eq } from "drizzle-orm";
+import { stat } from "fs";
 
 export const GetUserCapsulesAction = async () => {
   const session = await getSession();
@@ -16,7 +17,17 @@ export const GetUserCapsulesAction = async () => {
 
   try {
     const userCapsules = await db
-      .select()
+      .select({
+        id: capsule.id,
+        status: capsule.status,
+        createdAt: capsule.createdAt,
+        title: capsule.title,
+        category: capsule.category,
+        unlockAt: capsule.unlockAt,
+        hint: capsule.hint,
+        userId: capsule.userId,
+        updatedAt: capsule.updatedAt,
+      })
       .from(capsule)
       .where(eq(capsule.userId, session.user.id));
 

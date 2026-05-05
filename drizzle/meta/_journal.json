@@ -29,6 +29,20 @@
       "when": 1776345683992,
       "tag": "0003_fixed_checks_schema",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1778003324992,
+      "tag": "0004_fantastic_shaman",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1778003361730,
+      "tag": "0005_updated_schema_with_access_key",
+      "breakpoints": true
     }
   ]
 }

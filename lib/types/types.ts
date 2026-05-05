@@ -63,12 +63,12 @@ export interface CapsuleType {
   userId: string;
   title: string;
   category: string;
-  content: string;
+  content?: string;
   unlockAt: Date;
   status: "unlocked" | "locked";
   hint: string | null;
-  recipientEmail: string | null;
-  isDelivered: boolean;
+  recipientEmail?: string | null;
+  isDelivered?: boolean;
   createdAt: Date;
   updatedAt: Date | null;
 }

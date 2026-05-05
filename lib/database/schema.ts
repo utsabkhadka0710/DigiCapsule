@@ -115,6 +115,7 @@ export const capsule = pgTable(
     hint: varchar("hint", { length: 100 }),
     recipientEmail: varchar("recipient_email", { length: 100 }),
     isDelivered: boolean("isDelivered").default(false).notNull(),
+    accessKey: varchar("access_key", { length: 64 }),
     createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),

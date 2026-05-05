@@ -17,6 +17,12 @@ export async function CreateCapsuleAction(data: unknown) {
     };
   }
 
+  const bytes = crypto.getRandomValues(new Uint8Array(32));
+
+  const accessKey = Array.from(bytes, (b) =>
+    b.toString(16).padStart(2, "0"),
+  ).join("");
+
   try {
     const validateFormFields = ServerCapsuleSchema.parse(data);
 
@@ -27,6 +33,7 @@ export async function CreateCapsuleAction(data: unknown) {
       .values({
         ...capsuleData,
         userId: session.user.id,
+        accessKey,
       })
       .returning({ id: capsule.id });
 

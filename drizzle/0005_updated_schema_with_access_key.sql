@@ -1,0 +1,1 @@
+ALTER TABLE "capsule" ADD COLUMN "access_key" varchar(64);
