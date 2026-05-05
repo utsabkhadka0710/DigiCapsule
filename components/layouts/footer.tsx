@@ -8,28 +8,26 @@ const Footer = () => {
         <div>
           <Link href={"/"} className="flex items-center gap-2">
             <FaHourglassStart color="#135bec" size={18} />
-            <span className="font-normal">DigiCapsule <span className="font-light text-xs">&copy; 2026</span></span>
+            <span className="font-normal">
+              DigiCapsule{" "}
+              <span className="font-light text-xs">&copy; 2026</span>
+            </span>
           </Link>
         </div>
 
         <div className="flex items-center text-xs gap-2 md:gap-4">
-            <Link href={'/'}>
-            Home
-            </Link>
-            <Link href={'mailto:rijandhakal121@outlook.com'}>
-            Contact
-            </Link>
+          <Link href={"/"}>Home</Link>
+          <Link href={"mailto:rijandhakal121@outlook.com"}>Contact</Link>
         </div>
 
         <div className="flex items-center justify-end gap-2 md:gap-4">
-            <Link href={"https://github.com/rijan-dhakal"}>
-                <FaGithub />
-            </Link>
-            <Link href={"https://linkedin.com/in/rijandhakal"}>
-                <FaLinkedin />
-            </Link>
+          <Link href={"https://github.com/rijan-dhakal"}>
+            <FaGithub />
+          </Link>
+          <Link href={"https://linkedin.com/in/rijandhakal"}>
+            <FaLinkedin />
+          </Link>
         </div>
-
       </div>
     </footer>
   );
