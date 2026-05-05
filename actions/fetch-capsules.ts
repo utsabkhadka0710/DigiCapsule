@@ -2,7 +2,11 @@ import { capsule, capsuleFiles, user } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { getSession } from "@/lib/helper/get-session";
 import { and, eq } from "drizzle-orm";
-import { stat } from "fs";
+
+interface GetCapsuleByLinkParams {
+  capsuleId: string;
+  key: string;
+}
 
 export const GetUserCapsulesAction = async () => {
   const session = await getSession();
@@ -115,6 +119,38 @@ export const GetCapsuleFiles = async ({ capsuleId }: { capsuleId: string }) => {
     return {
       success: false,
       message: "Failed to fetch capsule files",
+    };
+  }
+};
+
+export const GetCapsuleByLink = async ({
+  capsuleId,
+  key,
+}: GetCapsuleByLinkParams) => {
+  try {
+    const capsuleData = await db
+      .select()
+      .from(capsule)
+      .where(eq(capsule.id, capsuleId));
+
+    if (!capsuleData.length) {
+      return { success: false, message: "Not found" };
+    }
+
+    const capsuleItem = capsuleData[0];
+
+    if (capsuleItem.accessKey !== key) {
+      return { success: false, message: "Invalid access key" };
+    }
+
+    return {
+      success: true,
+      data: capsuleItem,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Failed to fetch capsule",
     };
   }
 };
