@@ -6,6 +6,7 @@ import { getSession } from "@/lib/helper/get-session";
 import { ServerCapsuleSchema } from "@/lib/validators/capsules";
 import { revalidatePath } from "next/cache";
 import { eq, and } from "drizzle-orm";
+import { sendMail } from "@/lib/mailer";
 
 export async function CreateCapsuleAction(data: unknown) {
   const session = await getSession();
@@ -35,7 +36,7 @@ export async function CreateCapsuleAction(data: unknown) {
         userId: session.user.id,
         accessKey,
       })
-      .returning({ id: capsule.id });
+      .returning({ id: capsule.id, email: capsule.recipientEmail });
 
     if (files && files.length > 0) {
       await db.insert(capsuleFiles).values(
@@ -49,6 +50,15 @@ export async function CreateCapsuleAction(data: unknown) {
     }
 
     revalidatePath("/dashboard");
+
+    const accessLink = `${process.env.NEXT_PUBLIC_BASE_URL}/capsule/${createdCapsule[0].id}?key=${accessKey}`;
+
+    await sendMail(
+      createdCapsule[0].email!,
+      "capsule-creation",
+      accessLink,
+      session.user.name || "Someone",
+    );
 
     return {
       success: true,
