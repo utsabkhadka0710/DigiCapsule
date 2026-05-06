@@ -1,0 +1,1 @@
+ALTER TABLE "capsule" DROP COLUMN "isDelivered";

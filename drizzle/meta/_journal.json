@@ -43,6 +43,20 @@
       "when": 1778003361730,
       "tag": "0005_updated_schema_with_access_key",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1778053843320,
+      "tag": "0006_updated_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1778054604293,
+      "tag": "0007_add_creator_name",
+      "breakpoints": true
     }
   ]
 }

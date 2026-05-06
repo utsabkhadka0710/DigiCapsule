@@ -61,6 +61,7 @@ export interface UploadedAsset {
 export interface CapsuleType {
   id: string;
   userId: string;
+  creatorName?: string;
   title: string;
   category: string;
   content?: string;

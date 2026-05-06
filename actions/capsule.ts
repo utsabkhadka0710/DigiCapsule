@@ -34,9 +34,14 @@ export async function CreateCapsuleAction(data: unknown) {
       .values({
         ...capsuleData,
         userId: session.user.id,
+        creatorName: session.user.name || "Someone",
         accessKey,
       })
-      .returning({ id: capsule.id, email: capsule.recipientEmail });
+      .returning({
+        id: capsule.id,
+        email: capsule.recipientEmail,
+        creatorName: capsule.creatorName,
+      });
 
     if (files && files.length > 0) {
       await db.insert(capsuleFiles).values(
@@ -57,7 +62,7 @@ export async function CreateCapsuleAction(data: unknown) {
       createdCapsule[0].email!,
       "capsule-creation",
       accessLink,
-      session.user.name || "Someone",
+      createdCapsule[0].creatorName || "Someone",
     );
 
     return {
