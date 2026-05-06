@@ -28,16 +28,18 @@ export async function GET(req: NextRequest) {
       and(eq(capsule.status, "locked"), lte(capsule.unlockAt, new Date())),
     );
 
-  result.forEach(async (capsule) => {
-    const accessLink = `${process.env.NEXT_PUBLIC_BASE_URL}/capsule/${capsule.id}?key=${capsule.accessKey}`;
+  for (const capsuleItem of result) {
+    if (!capsuleItem.email) continue;
+
+    const accessLink = `${process.env.NEXT_PUBLIC_BASE_URL}/capsule/${capsuleItem.id}?key=${capsuleItem.accessKey}`;
 
     await sendMail(
-      capsule.email!,
+      capsuleItem.email,
       "capsule-unlock",
       accessLink,
-      capsule.creatorName!,
+      capsuleItem.creatorName ?? "Someone",
     );
-  });
+  }
 
   return NextResponse.json({
     message: "Capsules unlocked successfully",
