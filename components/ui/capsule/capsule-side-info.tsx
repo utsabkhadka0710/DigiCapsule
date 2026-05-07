@@ -4,7 +4,22 @@ import { FaRegUserCircle } from "react-icons/fa";
 
 import { Card, CardContent, CardHeader, CardTitle } from "../card";
 
-const CapsuleSideInfo = () => {
+const formatDate = (date: Date | string) =>
+  new Date(date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+const CapsuleSideInfo = ({
+  createdAt,
+  category,
+  creator,
+}: {
+  createdAt: Date | string;
+  category: string;
+  creator: string;
+}) => {
   return (
     <Card className="w-full gap-2 lg:w-[24rem]">
       <CardHeader className="gap-1">
@@ -22,7 +37,7 @@ const CapsuleSideInfo = () => {
           <div>
             <p className="font-medium">Locked</p>
             <p className="text-sm text-muted-foreground">
-              Opens <span>Oct 24, 2026</span>
+              Created <span>{formatDate(createdAt)}</span>
             </p>
           </div>
         </div>
@@ -35,7 +50,9 @@ const CapsuleSideInfo = () => {
 
           <div>
             <p className="font-medium">Category</p>
-            <p className="text-sm text-muted-foreground">Education</p>
+            <p className="text-sm text-muted-foreground">
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </p>
           </div>
         </div>
 
@@ -47,7 +64,7 @@ const CapsuleSideInfo = () => {
 
           <div>
             <p className="font-medium">Creator</p>
-            <p className="text-sm text-muted-foreground">John Doe</p>
+            <p className="text-sm text-muted-foreground">{creator}</p>
           </div>
         </div>
       </CardContent>
