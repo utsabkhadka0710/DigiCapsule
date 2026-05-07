@@ -1,8 +1,10 @@
-import { GetCapsuleByLink } from "@/actions/fetch-capsules";
+import { GetCapsuleByLink, GetCapsuleFiles } from "@/actions/fetch-capsules";
 import Capsule from "@/components/ui/capsule/capsule";
 import CapsuleSideInfo from "@/components/ui/capsule/capsule-side-info";
 import { Link2 } from "lucide-react";
 import Link from "next/link";
+import CapsuleLockedView from "./components/capsule-locked-view";
+import OpenedCapsule from "@/components/ui/shared/opened-capsule";
 
 const CapsulePage = async ({
   params,
@@ -26,6 +28,17 @@ const CapsulePage = async ({
     );
   }
 
+  const markdown = fetchedCapsule.data.content ?? "No data found";
+
+  let capsuleFiles, attachedMemories, attachedDocuments;
+
+  if (fetchedCapsule.data.status === "unlocked") {
+    capsuleFiles = await GetCapsuleFiles({ capsuleId: fetchedCapsule.data.id });
+    const allFiles = capsuleFiles.data ?? [];
+    attachedMemories = allFiles.filter((file) => file.fileType === "image");
+    attachedDocuments = allFiles.filter((file) => file.fileType !== "image");
+  }
+
   return (
     <>
       <div className="mb-6">
@@ -37,23 +50,24 @@ const CapsulePage = async ({
           <span>Visit DigiCapsule</span>
         </Link>
       </div>
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
-        <div className="min-w-0 flex-1">
-          <Capsule
-            title={fetchedCapsule.data.title}
-            createdAt={fetchedCapsule.data.createdAt.toISOString()}
-            unlockAt={fetchedCapsule.data.unlockAt.toISOString()}
-            hint={fetchedCapsule.data.hint || undefined}
-          />
-        </div>
-        <div className="w-full lg:w-auto lg:shrink-0">
-          <CapsuleSideInfo
-            createdAt={fetchedCapsule.data.createdAt.toISOString()}
-            category={fetchedCapsule.data.category}
-            creator={fetchedCapsule.data.creatorName || "Unknown"}
-          />
-        </div>
-      </div>
+      {/* Locked view */}
+
+      {fetchedCapsule.data.status === "unlocked" ? (
+        <OpenedCapsule
+          markdown={markdown}
+          attachedDocuments={attachedDocuments || []}
+          attachedMemories={attachedMemories || []}
+        />
+      ) : (
+        <CapsuleLockedView
+          title={fetchedCapsule.data.title}
+          createdAt={fetchedCapsule.data.createdAt}
+          unlockAt={fetchedCapsule.data.unlockAt}
+          hint={fetchedCapsule.data.hint || undefined}
+          category={fetchedCapsule.data.category}
+          creatorName={fetchedCapsule.data.creatorName || "Unknown"}
+        />
+      )}
     </>
   );
 };
