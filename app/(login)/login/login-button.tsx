@@ -21,9 +21,9 @@ const LoginButton = () => {
       if (resp.error) {
         return toast.error(resp.error.message);
       }
-    } catch (e: any) {
-      console.error(e.message);
-      return toast.error(e.message);
+    } catch (e) {
+      console.error(e instanceof Error ? e.message : "Error. Try again");
+      return toast.error(e instanceof Error ? e.message : "Error. Try again");
     } finally {
       setIsLoading(false);
     }

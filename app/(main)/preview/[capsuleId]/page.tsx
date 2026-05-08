@@ -12,7 +12,6 @@ const PreviewPage = async ({
   const capsuleId = (await params).capsuleId;
 
   const capsule = await GetCapsuleFromId({ capsuleId: capsuleId });
-  let capsuleFiles;
 
   if (!capsule.data || capsule.data.length === 0) {
     return (
@@ -38,7 +37,7 @@ const PreviewPage = async ({
     );
   }
 
-  capsuleFiles = await GetCapsuleFiles({ capsuleId: capsuleId });
+  const capsuleFiles = await GetCapsuleFiles({ capsuleId: capsuleId });
 
   const markdown = capsule.data?.[0]?.content ?? "No data found";
   const allFiles = capsuleFiles.data ?? [];

@@ -1,3 +1,5 @@
+"use client";
+
 const TimerContainer = ({ value, label }: { value: string; label: string }) => {
   return (
     <div className="h-28 rounded-lg bg-gray-800">
@@ -6,4 +8,5 @@ const TimerContainer = ({ value, label }: { value: string; label: string }) => {
     </div>
   );
 };
+
 export default TimerContainer;

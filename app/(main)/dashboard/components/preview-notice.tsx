@@ -33,7 +33,7 @@ const PreviewNotice = () => {
     <div className="max-w-fit flex items-center justify-between px-4 py-2 bg-gray-900 mb-3">
       <p className="text-sm text-red-500 font-semibold">
         You can only preview the capsule within 24 hours of creating it. After
-        that, you won't be able to preview it anymore.
+        that, you won&apos;t be able to preview it anymore.
       </p>
       <X className="ml-2 cursor-pointer" size={24} onClick={handleDismiss} />
     </div>

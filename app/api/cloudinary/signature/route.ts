@@ -27,10 +27,9 @@ export async function POST(request: Request) {
       cloudName: process.env.CLOUDINARY_CLOUD_NAME,
       apiKey: process.env.CLOUDINARY_API_KEY,
     });
-
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error while generating cloudinary signature");
-    console.error(error.message);
+    console.error(error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json(
       {
         error: "Failed to generate signature",

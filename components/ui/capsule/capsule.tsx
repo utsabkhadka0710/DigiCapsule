@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Dot, ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
@@ -62,7 +63,13 @@ const Capsule = ({
   hint,
   previewImageUrl,
 }: CapsuleProps) => {
-  const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(unlockAt));
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    isExpired: false,
+  });
   const [isHintImageOpen, setIsHintImageOpen] = useState(false);
 
   useEffect(() => {
@@ -138,7 +145,7 @@ const Capsule = ({
                 No hint provided by the creator.
               </p>
               <p className="mt-3 text-sm text-gray-400 italic">
-                "Try to guess what's inside the capsule!"
+                &quot;Try to guess what&apos;s inside the capsule!&quot;
               </p>
             </div>
           )}
@@ -153,11 +160,13 @@ const Capsule = ({
                 {isHintImageOpen ? "Hide Hint Image" : "Show Hint Image"}
               </button>
               {isHintImageOpen && (
-                <div className="mt-3 overflow-hidden rounded-lg border border-gray-700 bg-gray-900/40">
-                  <img
-                    src={previewImageUrl ?? undefined}
+                <div className="mt-3 overflow-hidden rounded-lg border border-gray-700 bg-gray-900/40 relative h-auto w-full">
+                  <Image
+                    src={previewImageUrl ?? ""}
                     alt="Hint Image"
-                    className="h-auto w-full object-cover transition brightness-50 blur-sm"
+                    className="object-cover transition brightness-50 blur-sm"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
                   />
                 </div>
               )}

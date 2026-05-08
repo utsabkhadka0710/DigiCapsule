@@ -1,4 +1,5 @@
 import Markdown from "react-markdown";
+import Image from "next/image";
 import { IoImagesOutline } from "react-icons/io5";
 import { LuFileText } from "react-icons/lu";
 import remarkGfm from "remark-gfm";
@@ -65,11 +66,13 @@ const OpenedCapsule = ({
                   className="group relative overflow-hidden rounded-md border border-gray-700 bg-gray-900/60"
                 >
                   <div className="relative aspect-16/10">
-                    <img
+                    <Image
                       src={file.url}
                       alt="Attached image"
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
+                      loading="eager"
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                   </div>
                   <div className="px-2.5 py-2 bg-gray-900/90 border-t border-gray-700">

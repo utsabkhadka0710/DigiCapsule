@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa6";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CapsuleSchema, TCapsuleSchema } from "@/lib/validators/capsules";
