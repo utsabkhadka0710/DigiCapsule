@@ -6,6 +6,7 @@ interface CapsuleLockedViewProps {
   createdAt: Date;
   unlockAt: Date;
   hint?: string;
+  previewImageUrl?: string | null;
   category: string;
   creatorName: string;
 }
@@ -15,6 +16,7 @@ const CapsuleLockedView = ({
   createdAt,
   unlockAt,
   hint,
+  previewImageUrl,
   category,
   creatorName,
 }: CapsuleLockedViewProps) => {
@@ -26,6 +28,7 @@ const CapsuleLockedView = ({
           createdAt={createdAt.toISOString()}
           unlockAt={unlockAt.toISOString()}
           hint={hint || undefined}
+          previewImageUrl={previewImageUrl || undefined}
         />
       </div>
       <div className="w-full lg:w-auto lg:shrink-0">

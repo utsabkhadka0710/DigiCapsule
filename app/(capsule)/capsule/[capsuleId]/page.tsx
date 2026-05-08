@@ -82,6 +82,7 @@ const CapsulePage = async ({
           createdAt={capsuleData.createdAt}
           unlockAt={capsuleData.unlockAt}
           hint={capsuleData.hint || undefined}
+          previewImageUrl={capsuleData.previewImageUrl || undefined}
           category={capsuleData.category}
           creatorName={capsuleData.creatorName || "Unknown"}
         />

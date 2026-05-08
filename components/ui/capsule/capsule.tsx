@@ -1,6 +1,6 @@
 "use client";
 
-import { Dot } from "lucide-react";
+import { Dot, ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Card,
@@ -18,6 +18,7 @@ interface CapsuleProps {
   createdAt: Date | string;
   unlockAt: Date | string;
   hint?: string;
+  previewImageUrl?: string | null;
 }
 
 const getTimeLeft = (unlockAt: Date | string) => {
@@ -54,8 +55,15 @@ const formatDate = (date: Date | string) =>
     year: "numeric",
   });
 
-const Capsule = ({ title, createdAt, unlockAt, hint }: CapsuleProps) => {
+const Capsule = ({
+  title,
+  createdAt,
+  unlockAt,
+  hint,
+  previewImageUrl,
+}: CapsuleProps) => {
   const [timeLeft, setTimeLeft] = useState(() => getTimeLeft(unlockAt));
+  const [isHintImageOpen, setIsHintImageOpen] = useState(false);
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -117,7 +125,8 @@ const Capsule = ({ title, createdAt, unlockAt, hint }: CapsuleProps) => {
 
           {hint ? (
             <div className="mt-6 rounded-xl border border-gray-700 bg-gray-800/60 p-4 text-left">
-              <p className="text-sm font-semibold text-gray-200">
+              <p className="flex items-center text-sm font-semibold text-gray-200">
+                <FaLightbulb className="mr-1 inline-block text-blue-400" />
                 Creators Hint
               </p>
               <p className="mt-3 text-sm text-gray-400 italic">{hint}</p>
@@ -131,6 +140,27 @@ const Capsule = ({ title, createdAt, unlockAt, hint }: CapsuleProps) => {
               <p className="mt-3 text-sm text-gray-400 italic">
                 "Try to guess what's inside the capsule!"
               </p>
+            </div>
+          )}
+
+          {previewImageUrl && (
+            <div className="mt-4 cursor-pointer">
+              <button
+                onClick={() => setIsHintImageOpen(!isHintImageOpen)}
+                className="w-full rounded-lg border border-gray-700 bg-gray-800/60 px-4 py-2 text-left text-sm font-semibold text-gray-200 transition-colors hover:bg-gray-800 cursor-pointer"
+              >
+                <ImageIcon className="mr-1 inline-block h-4 w-4 text-blue-400" />
+                {isHintImageOpen ? "Hide Hint Image" : "Show Hint Image"}
+              </button>
+              {isHintImageOpen && (
+                <div className="mt-3 overflow-hidden rounded-lg border border-gray-700 bg-gray-900/40">
+                  <img
+                    src={previewImageUrl ?? undefined}
+                    alt="Hint Image"
+                    className="h-auto w-full object-cover transition brightness-50 blur-sm"
+                  />
+                </div>
+              )}
             </div>
           )}
         </CardContent>
