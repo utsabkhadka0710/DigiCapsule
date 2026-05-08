@@ -106,7 +106,7 @@ const Capsule = ({
           {timeLeft.isExpired ? (
             <div className="mt-4 flex w-full items-center justify-center rounded-lg border border-gray-700 bg-gray-800 p-6 text-center">
               <p className="text-2xl font-bold uppercase tracking-[0.35em] text-gray-200 md:text-3xl">
-                soon.
+                soon
               </p>
             </div>
           ) : (
@@ -160,11 +160,11 @@ const Capsule = ({
                 {isHintImageOpen ? "Hide Hint Image" : "Show Hint Image"}
               </button>
               {isHintImageOpen && (
-                <div className="mt-3 overflow-hidden rounded-lg border border-gray-700 bg-gray-900/40 relative h-auto w-full">
+                <div className="relative mt-3 h-80 w-full overflow-hidden rounded-lg border border-gray-700 bg-gray-900/40 md:h-96">
                   <Image
                     src={previewImageUrl ?? ""}
                     alt="Hint Image"
-                    className="object-cover transition brightness-50 blur-sm"
+                    className="object-contain p-2 transition brightness-50 blur-sm"
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
                   />

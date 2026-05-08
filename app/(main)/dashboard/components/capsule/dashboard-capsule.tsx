@@ -101,7 +101,9 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
               <div className="flex items-center justify-between">
                 <span>
                   <FaClock className="inline-block mr-2" />
-                  Opens in {unlockTime.message}
+                  {unlockTime.message === "soon"
+                    ? "Unlocking soon"
+                    : `Unlocks in ${unlockTime.message}`}
                 </span>
 
                 <Button asChild variant="outline">
@@ -130,7 +132,10 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
                 </span>
               </div>
 
-              <Link href={`#`} className="text-primary font-semibold uppercase">
+              <Link
+                href={`/capsule/${capsule.id}`}
+                className="text-primary font-semibold uppercase"
+              >
                 Open now
               </Link>
             </div>
