@@ -49,12 +49,12 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
       {/* Image div */}
       <div className="relative h-44 w-full">
         <Image
-          src="/blur.png"
+          src={capsule.previewImageUrl || "/default.png"}
           alt={`${capsule.title} hint image`}
           loading="eager"
           fill
           sizes="(max-width: 768px) 100vw, 320px"
-          className={`object-cover transition ${isLocked ? "brightness-25" : "brightness-90"}`}
+          className={`object-cover transition ${isLocked ? "brightness-50 blur-sm" : "brightness-90"}`}
           onLoad={() => setIsImageLoaded(true)}
         />
 

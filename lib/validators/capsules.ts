@@ -24,6 +24,7 @@ export const CapsuleSchema = z.object({
     .max(16, "Password must be less than 16 characters")
     .optional(),
   files: z.array(z.instanceof(File)).optional(),
+  previewImageUrl: z.url("Invalid URL").optional(),
 });
 
 export type TCapsuleSchema = z.infer<typeof CapsuleSchema>;

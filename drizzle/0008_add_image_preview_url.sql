@@ -1,0 +1,1 @@
+ALTER TABLE "capsule" ADD COLUMN "preview_image_url" text;

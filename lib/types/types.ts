@@ -70,6 +70,7 @@ export interface CapsuleType {
   hint: string | null;
   recipientEmail?: string | null;
   isDelivered?: boolean;
+  previewImageUrl?: string | null;
   createdAt: Date;
   updatedAt: Date | null;
 }

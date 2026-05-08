@@ -31,6 +31,7 @@ export const GetUserCapsulesAction = async () => {
         hint: capsule.hint,
         userId: capsule.userId,
         updatedAt: capsule.updatedAt,
+        previewImageUrl: capsule.previewImageUrl,
       })
       .from(capsule)
       .where(eq(capsule.userId, session.user.id));

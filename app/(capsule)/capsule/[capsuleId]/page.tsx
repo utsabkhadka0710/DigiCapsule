@@ -1,6 +1,8 @@
-import { GetCapsuleByLink, GetCapsuleFiles } from "@/actions/fetch-capsules";
-import Capsule from "@/components/ui/capsule/capsule";
-import CapsuleSideInfo from "@/components/ui/capsule/capsule-side-info";
+import {
+  GetCapsuleByLink,
+  GetCapsuleFiles,
+  GetCapsuleFromId,
+} from "@/actions/fetch-capsules";
 import { Link2 } from "lucide-react";
 import Link from "next/link";
 import CapsuleLockedView from "./components/capsule-locked-view";
@@ -16,24 +18,40 @@ const CapsulePage = async ({
   const capsuleId = (await params).capsuleId;
   const key = (await searchParams).key;
 
-  const fetchedCapsule = await GetCapsuleByLink({ capsuleId, key });
+  let fetchedCapsule;
 
-  if (!fetchedCapsule.data || !fetchedCapsule.success || !key) {
+  if (key) {
+    fetchedCapsule = await GetCapsuleByLink({ capsuleId, key });
+  } else {
+    fetchedCapsule = await GetCapsuleFromId({ capsuleId });
+  }
+
+  if (!fetchedCapsule.data || !fetchedCapsule.success) {
     return (
       <div className="flex h-96 items-center justify-center rounded-md border border-gray-700 bg-gray-800/60 p-4">
-        <p className="text-sm text-gray-400">
-          Capsule not found or invalid key.
-        </p>
+        <p className="text-sm text-gray-400">Capsule not found.</p>
       </div>
     );
   }
 
-  const markdown = fetchedCapsule.data.content ?? "No data found";
+  const capsuleData = Array.isArray(fetchedCapsule.data)
+    ? fetchedCapsule.data[0]
+    : fetchedCapsule.data;
+
+  if (!capsuleData) {
+    return (
+      <div className="flex h-96 items-center justify-center rounded-md border border-gray-700 bg-gray-800/60 p-4">
+        <p className="text-sm text-gray-400">Capsule not found.</p>
+      </div>
+    );
+  }
+
+  const markdown = capsuleData.content ?? "No data found";
 
   let capsuleFiles, attachedMemories, attachedDocuments;
 
-  if (fetchedCapsule.data.status === "unlocked") {
-    capsuleFiles = await GetCapsuleFiles({ capsuleId: fetchedCapsule.data.id });
+  if (capsuleData.status === "unlocked") {
+    capsuleFiles = await GetCapsuleFiles({ capsuleId: capsuleData.id });
     const allFiles = capsuleFiles.data ?? [];
     attachedMemories = allFiles.filter((file) => file.fileType === "image");
     attachedDocuments = allFiles.filter((file) => file.fileType !== "image");
@@ -52,7 +70,7 @@ const CapsulePage = async ({
       </div>
       {/* Locked view */}
 
-      {fetchedCapsule.data.status === "unlocked" ? (
+      {capsuleData.status === "unlocked" ? (
         <OpenedCapsule
           markdown={markdown}
           attachedDocuments={attachedDocuments || []}
@@ -60,12 +78,12 @@ const CapsulePage = async ({
         />
       ) : (
         <CapsuleLockedView
-          title={fetchedCapsule.data.title}
-          createdAt={fetchedCapsule.data.createdAt}
-          unlockAt={fetchedCapsule.data.unlockAt}
-          hint={fetchedCapsule.data.hint || undefined}
-          category={fetchedCapsule.data.category}
-          creatorName={fetchedCapsule.data.creatorName || "Unknown"}
+          title={capsuleData.title}
+          createdAt={capsuleData.createdAt}
+          unlockAt={capsuleData.unlockAt}
+          hint={capsuleData.hint || undefined}
+          category={capsuleData.category}
+          creatorName={capsuleData.creatorName || "Unknown"}
         />
       )}
     </>
