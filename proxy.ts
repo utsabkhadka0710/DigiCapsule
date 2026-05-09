@@ -7,6 +7,9 @@ const protectedRoutes = [
   "/profile",
   "/settings",
   "/preview/:path*",
+  "/payment/success",
+  "/payment/failure",
+  "/settings/upgrade",
 ];
 const authRoutes = ["/", "/login"];
 
@@ -42,5 +45,8 @@ export const config = {
     "/profile",
     "/settings",
     "/preview/:path*",
+    "/payment/success",
+    "/payment/failure",
+    "/settings/upgrade",
   ],
 };

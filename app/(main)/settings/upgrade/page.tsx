@@ -13,7 +13,7 @@ import { GetCurrentPlan } from "@/actions/fetch-capsules";
 const plans = [
   {
     name: "Free",
-    key: "free",
+    key: "free" as const,
     price: "Rs 0",
     priceAmount: 0,
     period: "forever",
@@ -33,7 +33,7 @@ const plans = [
   },
   {
     name: "Basic",
-    key: "basic",
+    key: "basic" as const,
     price: "Rs 199",
     priceAmount: 199,
     period: "forever",
@@ -54,7 +54,7 @@ const plans = [
   },
   {
     name: "Premium",
-    key: "premium",
+    key: "premium" as const,
     price: "Rs 399",
     priceAmount: 399,
     period: "forever",
