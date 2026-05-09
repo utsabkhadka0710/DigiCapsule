@@ -64,6 +64,27 @@
       "when": 1778317707830,
       "tag": "0008_add_current_plan",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1778322679589,
+      "tag": "0009_create_payments_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1778322861170,
+      "tag": "0010_create_payments_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1778325616165,
+      "tag": "0011_add_plans_column",
+      "breakpoints": true
     }
   ]
 }

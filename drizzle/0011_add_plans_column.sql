@@ -1,0 +1,1 @@
+ALTER TABLE "payments" ADD COLUMN "plan" "current_plan" NOT NULL;

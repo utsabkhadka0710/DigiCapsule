@@ -95,7 +95,8 @@ const PricingSection = async () => {
           const Icon = plan.icon;
           const isCurrentPlan = currentPlan === plan.key;
           const isPremiumCurrentPlan = currentPlan === "premium";
-          const shouldDisableCard = isPremiumCurrentPlan || isCurrentPlan;
+          const shouldDisableCard =
+            plan.key === "free" || isPremiumCurrentPlan || isCurrentPlan;
           const shouldShowBadge =
             currentPlan === plan.key ||
             (!!plan.badge &&
@@ -171,6 +172,7 @@ const PricingSection = async () => {
                     isCurrentPlan={isCurrentPlan}
                     shouldDisableCard={shouldDisableCard}
                     plan={{
+                      key: plan.key,
                       btn: plan.btn,
                       btnVarient: plan.btnVarient,
                       priceAmount: plan.priceAmount,

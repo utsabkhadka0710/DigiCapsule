@@ -8,6 +8,7 @@ interface CardButtonProps {
   shouldDisableCard: boolean;
   isCurrentPlan: boolean;
   plan: {
+    key: "free" | "basic" | "premium";
     btn: string;
     btnVarient: "outline" | "default";
     priceAmount: number;
@@ -25,7 +26,11 @@ const CardButton = ({
     if (loading) return;
     setLoading(true);
     try {
-      const response = await EsewaPayment(plan.priceAmount);
+      if (plan.key === "free") {
+        return;
+      }
+
+      const response = await EsewaPayment(plan.priceAmount, plan.key);
 
       const form = document.createElement("form");
       form.method = "POST";

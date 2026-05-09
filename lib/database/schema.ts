@@ -17,6 +17,11 @@ export const currentPlanEnum = pgEnum("current_plan", [
   "basic",
   "premium",
 ]);
+export const paymentStatusEnum = pgEnum("payment_status", [
+  "pending",
+  "success",
+  "failed",
+]);
 
 // User account
 export const user = pgTable("user", {
@@ -160,10 +165,32 @@ export const capsuleFiles = pgTable(
   (table) => [index("capsuleFiles_capsuleId_idx").on(table.capsuleId)],
 );
 
+export const payments = pgTable(
+  "payments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    transaction_uuid: text("transaction_uuid").notNull().unique(),
+    amount: text("amount").notNull(),
+    signature: text("signature").notNull(),
+    payment_status: paymentStatusEnum("payment_status")
+      .notNull()
+      .default("pending"),
+    plan: currentPlanEnum("plan").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [index("payments_userId_idx").on(table.userId)],
+);
+
 // Relations
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
+  payments: many(payments),
   capsules: many(capsule),
 }));
 
