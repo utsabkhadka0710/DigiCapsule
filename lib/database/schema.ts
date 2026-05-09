@@ -12,6 +12,11 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const capsuleStatusEnum = pgEnum("status", ["unlocked", "locked"]);
+export const currentPlanEnum = pgEnum("current_plan", [
+  "free",
+  "basic",
+  "premium",
+]);
 
 // User account
 export const user = pgTable("user", {
@@ -27,6 +32,7 @@ export const user = pgTable("user", {
     .defaultNow()
     .$onUpdate(() => new Date())
     .notNull(),
+  currentPlan: currentPlanEnum("current_plan").default("free").notNull(),
   role: text("role"),
   banned: boolean("banned").default(false),
   banReason: text("ban_reason"),

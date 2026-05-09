@@ -1,7 +1,8 @@
-import { capsule, capsuleFiles } from "@/lib/database/schema";
+import { capsule, capsuleFiles, user } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { getSession } from "@/lib/helper/get-session";
 import { and, eq } from "drizzle-orm";
+import { success } from "zod";
 
 interface GetCapsuleByLinkParams {
   capsuleId: string;
@@ -152,6 +153,36 @@ export const GetCapsuleByLink = async ({
     return {
       success: false,
       message: "Failed to fetch capsule",
+    };
+  }
+};
+
+export const GetCurrentPlan = async () => {
+  try {
+    const session = await getSession();
+
+    if (!session) {
+      return {
+        success: false,
+        message: "You need to be logged in to fetch current plan.",
+      };
+    }
+
+    const plan = await db
+      .select({
+        currentPlan: user.currentPlan,
+      })
+      .from(user)
+      .where(eq(user.id, session.user.id));
+
+    return {
+      success: true,
+      data: plan[0].currentPlan,
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Failed to fetch current plan",
     };
   }
 };

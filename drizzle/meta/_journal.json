@@ -57,6 +57,13 @@
       "when": 1778054604293,
       "tag": "0007_add_creator_name",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1778317707830,
+      "tag": "0008_add_current_plan",
+      "breakpoints": true
     }
   ]
 }

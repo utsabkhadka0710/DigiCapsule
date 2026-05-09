@@ -22,6 +22,7 @@ const Header = ({ session }: { session: AuthData | null }) => {
   const navItems: NavItem[] = [
     { href: "/#features", label: "Features" },
     { href: "/#how-it-works", label: "How it works" },
+    { href: "/#pricing", label: "Pricing" },
   ];
 
   const renderNavItems = (items: typeof navItems) =>
@@ -34,6 +35,8 @@ const Header = ({ session }: { session: AuthData | null }) => {
             handleSectionClick(e, "features");
           } else if (item.label === "How it works") {
             handleSectionClick(e, "how-it-works");
+          } else if (item.label === "Pricing") {
+            handleSectionClick(e, "pricing");
           }
           setIsSheetOpen(false);
         }}

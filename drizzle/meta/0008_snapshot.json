@@ -1,6 +1,6 @@
 {
-  "id": "6e21fe36-d02c-45ce-8511-81e9fffbfbba",
-  "prevId": "1af6cea0-9a37-4f69-bca3-93776bb0e6e0",
+  "id": "bf10d7c2-a8aa-4a75-bc43-103d765e559e",
+  "prevId": "6e21fe36-d02c-45ce-8511-81e9fffbfbba",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -529,6 +529,14 @@
           "notNull": true,
           "default": "now()"
         },
+        "current_plan": {
+          "name": "current_plan",
+          "type": "current_plan",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'free'"
+        },
         "role": {
           "name": "role",
           "type": "text",
@@ -646,6 +654,15 @@
       "values": [
         "unlocked",
         "locked"
+      ]
+    },
+    "public.current_plan": {
+      "name": "current_plan",
+      "schema": "public",
+      "values": [
+        "free",
+        "basic",
+        "premium"
       ]
     }
   },
