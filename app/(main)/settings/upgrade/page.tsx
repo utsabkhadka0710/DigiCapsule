@@ -80,7 +80,7 @@ const PricingSection = async () => {
   const currentPlan = resp.success ? resp.data : "free";
 
   return (
-    <section id="pricing" className="py-16 px-4 md:px-16 lg:px-40">
+    <div className="py-12 px-4 min-h-[calc(100vh-160px)] md:px-16 lg:px-40">
       {/* Section Header */}
       <div className="text-center mb-12">
         <p className="text-3xl font-bold">Pricing</p>
@@ -105,8 +105,8 @@ const PricingSection = async () => {
             <div key={plan.name} className="relative">
               {/* Badge */}
               {shouldShowBadge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 px-2">
+                  <span className="bg-primary text-primary-foreground text-xs md:text-sm font-semibold px-2 md:px-3 py-1 rounded-full whitespace-nowrap">
                     {(currentPlan === plan.key && "Current Plan") || plan.badge}
                   </span>
                 </div>
@@ -137,7 +137,9 @@ const PricingSection = async () => {
 
                   <div className="flex items-end gap-1.5 mt-2">
                     <span className="text-4xl font-extrabold tracking-tight">
-                      {plan.price}
+                      {currentPlan === "basic" && plan.key === "premium"
+                        ? plans[2].priceAmount - plans[1].priceAmount
+                        : plan.price}
                     </span>
                     <span className="text-text-secondary text-sm mb-1.5">
                       /{plan.period}
@@ -188,7 +190,7 @@ const PricingSection = async () => {
       <p className="text-center text-xs text-text-secondary mt-8">
         No payment method required for Free plan.
       </p>
-    </section>
+    </div>
   );
 };
 

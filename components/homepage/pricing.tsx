@@ -32,7 +32,7 @@ const plans = [
   },
   {
     name: "Basic",
-    price: "Rs 4",
+    price: "Rs 199",
     period: "forever",
     description: "For those who want to preserve more moments and memories.",
     icon: Zap,
@@ -52,7 +52,7 @@ const plans = [
   },
   {
     name: "Premium",
-    price: "Rs 9",
+    price: "Rs 399",
     period: "forever",
     description: "Extra capsules, more storage, and more files per capsule.",
     icon: Sparkles,
@@ -91,8 +91,8 @@ const PricingSection = () => {
             <div key={plan.name} className="relative">
               {/* Badge */}
               {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                  <span className="bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 px-2">
+                  <span className="bg-primary text-primary-foreground text-xs md:text-sm font-semibold px-2 md:px-3 py-1 rounded-full whitespace-nowrap">
                     {plan.badge}
                   </span>
                 </div>

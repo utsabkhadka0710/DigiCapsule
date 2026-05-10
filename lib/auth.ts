@@ -27,4 +27,11 @@ export const auth = betterAuth({
     admin({ adminRoles: [adminRole], defaultRole: userRole }),
     nextCookies(),
   ],
+  advanced: {
+    cookies: {
+      session_token: {
+        name: "secret_key",
+      },
+    },
+  },
 });
