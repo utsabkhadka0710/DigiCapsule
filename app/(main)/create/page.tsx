@@ -17,6 +17,7 @@ import { AlertBox } from "@/components/ui/shared/alert-box";
 import { UploadedAsset } from "@/lib/types/types";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
 import BackToDashboard from "@/components/ui/shared/back-to-dashboard";
+import { GetCapsuleLimitInfo } from "@/actions/fetch-capsules";
 
 const CreatePage = () => {
   const router = useRouter();
@@ -35,6 +36,15 @@ const CreatePage = () => {
   });
 
   const onSubmit = async function (data: TCapsuleSchema) {
+    const checkQuota = await GetCapsuleLimitInfo();
+    if (!checkQuota.success) {
+      toast.error(
+        checkQuota.message ??
+          "Failed to check capsule creation quota. Try again.",
+      );
+      return;
+    }
+
     setFormData(data);
     setOpenDialog(true);
   };

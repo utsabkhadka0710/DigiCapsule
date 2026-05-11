@@ -1,3 +1,5 @@
+"use server";
+
 import { capsule, capsuleFiles, user } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { getSession } from "@/lib/helper/get-session";
@@ -186,7 +188,7 @@ export const GetCurrentPlan = async () => {
   }
 };
 
-export const CheckQuota = async () => {
+export const GetCapsuleLimitInfo = async () => {
   try {
     const session = await getSession();
 
