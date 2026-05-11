@@ -1,12 +1,18 @@
 "use server";
 
-import { capsule, capsuleFiles } from "@/lib/database/schema";
+import { capsule, capsuleFiles, user } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { getSession } from "@/lib/helper/get-session";
 import { ServerCapsuleSchema } from "@/lib/validators/capsules";
 import { revalidatePath } from "next/cache";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import { sendMail } from "@/lib/mailer";
+
+const CAPSULE_LIMITS = {
+  free: 4,
+  basic: 8,
+  premium: 12,
+} as const;
 
 export async function CreateCapsuleAction(data: unknown) {
   const session = await getSession();
@@ -29,6 +35,32 @@ export async function CreateCapsuleAction(data: unknown) {
 
     const { files, ...capsuleData } = validateFormFields;
 
+    const userRecord = await db
+      .select({
+        currentPlan: user.currentPlan,
+        capsulesCount: user.capsulesCount,
+      })
+      .from(user)
+      .where(eq(user.id, session.user.id))
+      .limit(1);
+
+    if (!userRecord.length) {
+      return {
+        success: false,
+        message: "Unable to verify your account plan.",
+      };
+    }
+
+    const currentPlan = userRecord[0].currentPlan;
+    const currentLimit = CAPSULE_LIMITS[currentPlan];
+
+    if (userRecord[0].capsulesCount >= currentLimit) {
+      return {
+        success: false,
+        message: `You have reached your ${currentPlan} plan limit of ${currentLimit} capsules. Upgrade your plan to create more.`,
+      };
+    }
+
     const createdCapsule = await db
       .insert(capsule)
       .values({
@@ -42,6 +74,13 @@ export async function CreateCapsuleAction(data: unknown) {
         email: capsule.recipientEmail,
         creatorName: capsule.creatorName,
       });
+
+    await db
+      .update(user)
+      .set({
+        capsulesCount: sql`${user.capsulesCount} + 1`,
+      })
+      .where(eq(user.id, session.user.id));
 
     if (files && files.length > 0) {
       await db.insert(capsuleFiles).values(
@@ -71,12 +110,16 @@ export async function CreateCapsuleAction(data: unknown) {
     };
   } catch (error) {
     const message =
-      error instanceof Error ? error.message : "Failed to create a capsule.";
+      error instanceof Error && error.message === "capsule_limit_reached"
+        ? "You have reached your capsule limit for this plan. Upgrade to create more."
+        : error instanceof Error
+          ? error.message
+          : "Failed to create a capsule.";
     console.error(message);
 
     return {
       success: false,
-      message: "Failed to create a capsule",
+      message,
     };
   }
 }
@@ -92,11 +135,29 @@ export async function DeleteCapsuleAction(capsuleId: string) {
   }
 
   try {
-    await db
+    const deletedCapsule = await db
       .delete(capsule)
       .where(
         and(eq(capsule.id, capsuleId), eq(capsule.userId, session.user.id)),
-      );
+      )
+      .returning({
+        id: capsule.id,
+        userId: capsule.userId,
+      });
+
+    if (!deletedCapsule.length) {
+      return {
+        success: false,
+        message: "Capsule not found or already deleted.",
+      };
+    }
+
+    await db
+      .update(user)
+      .set({
+        capsulesCount: sql`GREATEST(${user.capsulesCount} - 1, 0)`,
+      })
+      .where(eq(user.id, session.user.id));
 
     revalidatePath("/dashboard");
 

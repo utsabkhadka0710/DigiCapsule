@@ -1,0 +1,2 @@
+ALTER TABLE "user" ADD COLUMN "capsules_count" integer DEFAULT 0 NOT NULL;--> statement-breakpoint
+ALTER TABLE "user" ADD CONSTRAINT "user_capsules_count_non_negative_check" CHECK ("user"."capsules_count" >= 0);

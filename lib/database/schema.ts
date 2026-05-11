@@ -9,6 +9,7 @@ import {
   varchar,
   pgEnum,
   check,
+  integer,
 } from "drizzle-orm/pg-core";
 
 export const capsuleStatusEnum = pgEnum("status", ["unlocked", "locked"]);
@@ -38,11 +39,19 @@ export const user = pgTable("user", {
     .$onUpdate(() => new Date())
     .notNull(),
   currentPlan: currentPlanEnum("current_plan").default("free").notNull(),
+  capsulesCount: integer("capsules_count").default(0).notNull(),
   role: text("role"),
   banned: boolean("banned").default(false),
   banReason: text("ban_reason"),
   banExpires: timestamp("ban_expires"),
-});
+},
+  (table) => [
+    check(
+      "user_capsules_count_non_negative_check",
+      sql`${table.capsulesCount} >= 0`,
+    ),
+  ],
+);
 
 export const session = pgTable(
   "session",

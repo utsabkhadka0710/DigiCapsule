@@ -185,3 +185,49 @@ export const GetCurrentPlan = async () => {
     };
   }
 };
+
+export const CheckQuota = async () => {
+  try {
+    const session = await getSession();
+
+    if (!session) {
+      return {
+        success: false,
+        message: "You need to be logged in to check quota.",
+      };
+    }
+
+    const userData = await db
+      .select({
+        capsulesCount: user.capsulesCount,
+        currentPlan: user.currentPlan,
+      })
+      .from(user)
+      .where(eq(user.id, session.user.id));
+
+    const { capsulesCount, currentPlan } = userData[0];
+
+    const planLimits = {
+      free: 4,
+      basic: 8,
+      premium: 12,
+    };
+
+    if (capsulesCount >= planLimits[currentPlan]) {
+      return {
+        success: false,
+        message: `You have reached your ${currentPlan} plan limit of ${planLimits[currentPlan]} capsules. Upgrade your plan to create more.`,
+      };
+    }
+
+    return {
+      success: true,
+      message: "You have available quota to create more capsules.",
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Failed to check quota",
+    };
+  }
+};
