@@ -19,10 +19,6 @@ export const CapsuleSchema = z.object({
     }),
   hint: z.string().max(100, "Hint must be at most 100 characters").optional(),
   recipientEmail: z.email("Invalid Email"),
-  capsulePassword: z
-    .string()
-    .max(16, "Password must be less than 16 characters")
-    .optional(),
   files: z.array(z.instanceof(File)).optional(),
   previewImageUrl: z.url("Invalid URL").optional(),
 });
