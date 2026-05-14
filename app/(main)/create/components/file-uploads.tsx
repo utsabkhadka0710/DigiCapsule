@@ -1,19 +1,58 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { FileText, X } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { GetCurrentPlan } from "@/actions/fetch-capsules";
 
 interface FileUploadProps {
   value?: File[];
   onChange?: (files: File[]) => void;
 }
 
+const limitations = {
+  free: {
+    maxFiles: 2,
+    maxSize: 5 * 1024 * 1024,
+  },
+  basic: {
+    maxFiles: 4,
+    maxSize: 20 * 1024 * 1024,
+  },
+  premium: {
+    maxFiles: 6,
+    maxSize: 40 * 1024 * 1024,
+  },
+};
+
 const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
-  const maxSize = 30 * 1024 * 1024;
-  const maxFiles = 2;
+  const [currentPlan, setCurrentPlan] =
+    useState<keyof typeof limitations>("free");
+
+  useEffect(() => {
+    const loadCurrentPlan = async () => {
+      const currentPlanResponse = await GetCurrentPlan();
+
+      if (!currentPlanResponse.success) {
+        return;
+      }
+
+      if (
+        currentPlanResponse.data === "free" ||
+        currentPlanResponse.data === "basic" ||
+        currentPlanResponse.data === "premium"
+      ) {
+        setCurrentPlan(currentPlanResponse.data);
+      }
+    };
+
+    loadCurrentPlan();
+  }, []);
+
+  const { maxFiles, maxSize } = limitations[currentPlan] || limitations.free;
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     maxFiles: maxFiles,
@@ -25,7 +64,7 @@ const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
       "audio/*": [],
     },
     onDrop: (acceptedFiles) => {
-      const newFiles = [...value, ...acceptedFiles].slice(0, 2);
+      const newFiles = [...value, ...acceptedFiles].slice(0, maxFiles);
       onChange?.(newFiles);
     },
     onDropRejected(fileRejections) {
@@ -95,7 +134,9 @@ const FileUpload = ({ value = [], onChange }: FileUploadProps) => {
         </p>
         <div className="mt-2 space-y-1 text-xs text-muted-foreground">
           <p>Images, videos, and MP3 audio are supported</p>
-          <p>Limit 2 files, up to 30 MB per file</p>
+          <p>
+            Limit {maxFiles} files, up to {maxSize / (1024 * 1024)} MB per file
+          </p>
         </div>
       </div>
 
