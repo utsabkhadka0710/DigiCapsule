@@ -75,8 +75,9 @@ const CreatePage = () => {
 
       const payload = {
         ...formData,
-        previewImageUrl:
-          uploadedAssets.length > 0 ? uploadedAssets[0].secureUrl : null,
+        ...(uploadedAssets.length > 0 && {
+          previewImageUrl: uploadedAssets[0].secureUrl,
+        }),
         files: uploadedAssets.map((file) => ({
           url: file.secureUrl,
           publicId: file.publicId,
