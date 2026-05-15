@@ -17,7 +17,7 @@ import { AlertBox } from "@/components/ui/shared/alert-box";
 import { UploadedAsset } from "@/lib/types/types";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
 import BackToDashboard from "@/components/ui/shared/back-to-dashboard";
-import { GetCapsuleLimitInfo } from "@/actions/fetch-capsules";
+import { GetCapsuleLimitInfo } from "@/actions/user-details";
 
 const CreatePage = () => {
   const router = useRouter();

@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { FileText, X } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
-import { GetCurrentPlan } from "@/actions/fetch-capsules";
+import { GetCurrentPlan } from "@/actions/user-details";
 
 interface FileUploadProps {
   value?: File[];

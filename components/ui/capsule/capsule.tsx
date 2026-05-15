@@ -20,6 +20,7 @@ interface CapsuleProps {
   unlockAt: Date | string;
   hint?: string;
   previewImageUrl?: string | null;
+  isPreviewImageAvailable?: boolean;
 }
 
 const getTimeLeft = (unlockAt: Date | string) => {
@@ -62,6 +63,7 @@ const Capsule = ({
   unlockAt,
   hint,
   previewImageUrl,
+  isPreviewImageAvailable,
 }: CapsuleProps) => {
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -150,7 +152,7 @@ const Capsule = ({
             </div>
           )}
 
-          {previewImageUrl && (
+          {previewImageUrl && isPreviewImageAvailable && (
             <div className="mt-4 cursor-pointer">
               <button
                 onClick={() => setIsHintImageOpen(!isHintImageOpen)}

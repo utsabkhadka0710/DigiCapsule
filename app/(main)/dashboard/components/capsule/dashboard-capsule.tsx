@@ -15,7 +15,15 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { isPreviewAvailable } from "@/lib/helper/is-preview-available";
 
-const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
+interface DashboardCapsuleProps {
+  capsule: CapsuleType;
+  isPreviewImageAvailable: boolean | undefined;
+}
+
+const DashboardCapsule = ({
+  capsule,
+  isPreviewImageAvailable,
+}: DashboardCapsuleProps) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -49,7 +57,11 @@ const DashboardCapsule = ({ capsule }: { capsule: CapsuleType }) => {
       {/* Image div */}
       <div className="relative h-44 w-full">
         <Image
-          src={capsule.previewImageUrl || "/default.png"}
+          src={
+            isPreviewImageAvailable
+              ? capsule.previewImageUrl || "/default.png"
+              : "/default.png"
+          }
           alt={`${capsule.title} hint image`}
           loading="eager"
           fill

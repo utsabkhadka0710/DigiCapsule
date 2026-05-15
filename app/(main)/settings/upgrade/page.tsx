@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import CardButton from "./card-button";
-import { GetCurrentPlan } from "@/actions/fetch-capsules";
+import { GetCurrentPlan } from "@/actions/user-details";
 
 const plans = [
   {

@@ -85,6 +85,7 @@ const CapsulePage = async ({
           previewImageUrl={capsuleData.previewImageUrl || undefined}
           category={capsuleData.category}
           creatorName={capsuleData.creatorName || "Unknown"}
+          userId={capsuleData.userId}
         />
       )}
     </>

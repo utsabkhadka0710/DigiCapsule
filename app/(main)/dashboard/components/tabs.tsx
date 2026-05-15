@@ -4,6 +4,7 @@ import { IoIosLock } from "react-icons/io";
 import { IoMdUnlock } from "react-icons/io";
 import DashboardCapsule from "./capsule/dashboard-capsule";
 import Search from "./search";
+import { GetCurrentPlan } from "@/actions/user-details";
 
 const triggers = [
   { value: "all", label: "All Capsules" },
@@ -11,7 +12,7 @@ const triggers = [
   { value: "unlocked", label: "Unlocked", icon: <IoMdUnlock size={18} /> },
 ];
 
-const TabsComponent = ({
+const TabsComponent = async ({
   capsules,
   loading,
 }: {
@@ -21,6 +22,9 @@ const TabsComponent = ({
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  const checkPlan = await GetCurrentPlan();
+  const isPreviewImageAvailable = checkPlan.data && checkPlan.data !== "free";
 
   const lockedCapsules = capsules.filter(
     (capsule) => capsule.status === "locked",
@@ -55,7 +59,11 @@ const TabsComponent = ({
         className="mt-6 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {capsules.map((item) => (
-          <DashboardCapsule key={item.id} capsule={item} />
+          <DashboardCapsule
+            key={item.id}
+            capsule={item}
+            isPreviewImageAvailable={isPreviewImageAvailable}
+          />
         ))}
       </TabsContent>
 
@@ -64,7 +72,11 @@ const TabsComponent = ({
         className="mt-6 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {lockedCapsules.map((item) => (
-          <DashboardCapsule key={item.id} capsule={item} />
+          <DashboardCapsule
+            key={item.id}
+            capsule={item}
+            isPreviewImageAvailable={isPreviewImageAvailable}
+          />
         ))}
       </TabsContent>
 
@@ -73,7 +85,11 @@ const TabsComponent = ({
         className="mt-6 grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {unlockedCapsules.map((item) => (
-          <DashboardCapsule key={item.id} capsule={item} />
+          <DashboardCapsule
+            key={item.id}
+            capsule={item}
+            isPreviewImageAvailable={isPreviewImageAvailable}
+          />
         ))}
       </TabsContent>
     </Tabs>
