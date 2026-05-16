@@ -37,7 +37,7 @@ const plans = [
     price: "Rs 199",
     priceAmount: 199,
     period: "forever",
-    description: "For those who want to preserve more moments and memories.",
+    description: "For those who want to preserve more memories.",
     icon: Zap,
     highlighted: true,
     badge: "Most Popular",
@@ -47,7 +47,6 @@ const plans = [
       "Up to 20 MB per file",
       "Time lock scheduling",
       "Blur preview hints",
-      "Email notifications on unlock",
     ],
     btn: "Get Basic",
     btnVarient: "default" as const,
@@ -136,12 +135,12 @@ const PricingSection = async () => {
                   </div>
 
                   <div className="flex items-end gap-1.5 mt-2">
-                    <span className="text-4xl font-extrabold tracking-tight">
+                    <span className="text-4xl font-extrabold tracking-tight min-w-fit">
                       {currentPlan === "basic" && plan.key === "premium"
                         ? plans[2].priceAmount - plans[1].priceAmount
                         : plan.price}
                     </span>
-                    <span className="text-text-secondary text-sm mb-1.5">
+                    <span className="text-text-secondary text-sm mb-1.5 whitespace-nowrap">
                       /{plan.period}
                     </span>
                   </div>

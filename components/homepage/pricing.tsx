@@ -34,7 +34,7 @@ const plans = [
     name: "Basic",
     price: "Rs 199",
     period: "forever",
-    description: "For those who want to preserve more moments and memories.",
+    description: "For those who want to preserve more memories.",
     icon: Zap,
     highlighted: true,
     badge: "Most Popular",
@@ -44,7 +44,6 @@ const plans = [
       "Up to 20 MB per file",
       "Time lock scheduling",
       "Blur preview hints",
-      "Email notifications on unlock",
     ],
     cta: "Get Basic",
     ctaVariant: "default" as const,
@@ -62,7 +61,7 @@ const plans = [
       "Up to 12 capsules",
       "Up to 6 photos/videos per capsule",
       "Up to 40 MB per file",
-      "ime lock scheduling",
+      "Time lock scheduling",
       "Blur preview hints",
       "Email notifications on unlock",
     ],
@@ -120,10 +119,10 @@ const PricingSection = () => {
                   </div>
 
                   <div className="flex items-end gap-1.5 mt-2">
-                    <span className="text-4xl font-extrabold tracking-tight">
+                    <span className="text-4xl font-extrabold tracking-tight min-w-fit">
                       {plan.price}
                     </span>
-                    <span className="text-text-secondary text-sm mb-1.5">
+                    <span className="text-text-secondary text-sm mb-1.5 whitespace-nowrap">
                       /{plan.period}
                     </span>
                   </div>
