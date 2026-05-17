@@ -1,4 +1,4 @@
-import { capsule } from "@/lib/database/schema";
+import { capsule, user } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { sendMail } from "@/lib/mailer";
 import { and, eq, lte } from "drizzle-orm";
@@ -20,6 +20,7 @@ export async function GET(req: NextRequest) {
     .set({ status: "unlocked" })
     .returning({
       id: capsule.id,
+      userId: capsule.userId,
       email: capsule.recipientEmail,
       accessKey: capsule.accessKey,
       creatorName: capsule.creatorName,
@@ -30,6 +31,18 @@ export async function GET(req: NextRequest) {
 
   for (const capsuleItem of result) {
     if (!capsuleItem.email) continue;
+
+    const creatorRecord = await db
+      .select({
+        currentPlan: user.currentPlan,
+      })
+      .from(user)
+      .where(eq(user.id, capsuleItem.userId))
+      .limit(1);
+
+    const creatorPlan = creatorRecord[0]?.currentPlan;
+
+    if (creatorPlan !== "premium") continue;
 
     const accessLink = `${process.env.NEXT_PUBLIC_BASE_URL}/capsule/${capsuleItem.id}?key=${capsuleItem.accessKey}`;
 

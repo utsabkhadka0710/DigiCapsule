@@ -12,7 +12,7 @@ import FileUpload from "./components/file-uploads";
 import { toast } from "sonner";
 import { CreateCapsuleAction } from "@/actions/capsule";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { AlertBox } from "@/components/ui/shared/alert-box";
 import { UploadedAsset } from "@/lib/types/types";
 import { uploadToCloudinary } from "./upload-to-cloudinary";
@@ -24,6 +24,7 @@ const CreatePage = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const [formData, setFormData] = useState<TCapsuleSchema | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const submitLockRef = useRef(false);
 
   const {
     register,
@@ -50,8 +51,11 @@ const CreatePage = () => {
   };
 
   const confirmSubmit = async function () {
+    if (submitLockRef.current) return;
+
     if (!formData) return;
 
+    submitLockRef.current = true;
     setOpenDialog(false);
     setIsSubmitting(true);
 
@@ -109,8 +113,9 @@ const CreatePage = () => {
     } finally {
       // Timeout to prevent resubmitting in delay between redirects
       setTimeout(() => {
+        submitLockRef.current = false;
         setIsSubmitting(false);
-      }, 2000);
+      }, 5000);
     }
   };
 
@@ -306,6 +311,7 @@ const CreatePage = () => {
         alertActionText="Create Capsule"
         alertCancelText="Cancel"
         actionButtonVarient="default"
+        isLoading={isSubmitting}
         otherInfo="You can only preview the capsule after it's created, so make sure all the information is accurate."
         actionDelaySeconds={5}
       />
