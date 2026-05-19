@@ -15,7 +15,7 @@ const Header = ({ session }: { session: AuthData | null }) => {
   const loggedInNavItems = [
     { href: "/dashboard", label: "Dashboard" },
     { href: "/create", label: "Create" },
-    { href: "/profile", label: "Profile" },
+    { href: "/plans", label: "Plans" },
     { href: "/settings", label: "Settings" },
   ];
 
@@ -93,7 +93,7 @@ const Header = ({ session }: { session: AuthData | null }) => {
         <div className="hidden md:block">
           {session?.user ? (
             <Button asChild className="px-4 py-2 text-lg shadow">
-              <Link href={"/profile"}>Profile</Link>
+              <Link href={"/plans"}>Plans</Link>
             </Button>
           ) : (
             <Button asChild className="px-4 py-2 text-lg shadow">
