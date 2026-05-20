@@ -7,6 +7,7 @@ import { FaHourglassStart } from "react-icons/fa6";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import HamburgerMenu from "../homepage/hamburger-menu";
+import { DropdownMenuIcons } from "../ui/shared/profile-dropdown";
 
 const Header = ({ session }: { session: AuthData | null }) => {
   const pathname = usePathname();
@@ -92,9 +93,7 @@ const Header = ({ session }: { session: AuthData | null }) => {
 
         <div className="hidden md:block">
           {session?.user ? (
-            <Button asChild className="px-4 py-2 text-lg shadow">
-              <Link href={"/plans"}>Plans</Link>
-            </Button>
+            <DropdownMenuIcons />
           ) : (
             <Button asChild className="px-4 py-2 text-lg shadow">
               <Link href={"/login"}>Sign up</Link>
