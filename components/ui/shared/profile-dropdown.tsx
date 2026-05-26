@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,27 +10,55 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { MdLogout } from "react-icons/md";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AlertBox } from "@/components/ui/shared/alert-box";
 
-export function DropdownMenuIcons() {
+export function DropdownMenuIcons({ email }: { email: string }) {
+  const router = useRouter();
+  const [isLogoutAlertOpen, setIsLogoutAlertOpen] = useState(false);
+
+  const handleLogout = async function () {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.replace("/");
+          router.refresh();
+        },
+      },
+    });
+  };
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <AlertBox
+        open={isLogoutAlertOpen}
+        onOpenChange={setIsLogoutAlertOpen}
+        onConfirm={handleLogout}
+        alertTitle="Log out?"
+        alertDescription="You will need to sign in again to access your account."
+        alertActionText="Logout"
+        alertCancelText="Cancel"
+        actionButtonVarient="destructive"
+      />
+      <DropdownMenuTrigger className="cursor-pointer">
         <Avatar>
           <AvatarImage src={"https://github.com/shadcn.png"} />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarFallback>PP</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel className="pb-0">
-          <p className="font-bold">{"User name"}</p>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuLabel className="text-sm pt-1">
-          <p className="text-gray-800">{"User email"}</p>
+        <DropdownMenuLabel className="text-sm text-gray-100 pt-1">
+          <p>{email}</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="pl-2 cursor-pointer" asChild>
-          <button onClick={() => {}}>
+          <button
+            type="button"
+            onClick={() => setIsLogoutAlertOpen(true)}
+            className="font-semibold"
+          >
             <MdLogout color="red" />
             Logout
           </button>
