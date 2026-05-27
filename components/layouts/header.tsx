@@ -94,7 +94,10 @@ const Header = ({ session }: { session: AuthData | null }) => {
         <div className="hidden md:block">
           {session?.user ? (
             <div className="rounded-full border-2 border-white h-9 w-9">
-              <DropdownMenuIcons email={session.user.email} />
+              <DropdownMenuIcons
+                email={session.user.email}
+                image={session.user.image!}
+              />
             </div>
           ) : (
             <Button asChild className="px-4 py-2 text-lg shadow">

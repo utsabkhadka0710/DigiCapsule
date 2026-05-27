@@ -22,7 +22,7 @@ interface Props {
   alertDescription: string;
   alertActionText: string;
   alertCancelText: string;
-  actionButtonVarient?: "default" | "destructive";
+  actionButtonVariant?: "default" | "destructive";
   isLoading?: boolean;
   closeOnConfirm?: boolean;
   otherInfo?: string;
@@ -37,7 +37,7 @@ export function AlertBox({
   alertDescription,
   alertActionText,
   alertCancelText,
-  actionButtonVarient,
+  actionButtonVariant,
   isLoading = false,
   closeOnConfirm = true,
   otherInfo,
@@ -101,7 +101,7 @@ export function AlertBox({
               onConfirm();
             }}
             className="cursor-pointer"
-            variant={actionButtonVarient}
+            variant={actionButtonVariant}
             disabled={isLoading || isActionLocked}
           >
             {isLoading ? (

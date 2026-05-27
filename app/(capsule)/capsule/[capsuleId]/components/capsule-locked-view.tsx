@@ -1,4 +1,4 @@
-import { GetCurrentPlan, GetCurrentPlanFromId } from "@/actions/user-details";
+import { GetCurrentPlanFromId } from "@/actions/user-details";
 import Capsule from "@/components/ui/capsule/capsule";
 import CapsuleSideInfo from "@/components/ui/capsule/capsule-side-info";
 

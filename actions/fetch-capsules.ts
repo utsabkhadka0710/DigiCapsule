@@ -1,6 +1,6 @@
 "use server";
 
-import { capsule, capsuleFiles, user } from "@/lib/database/schema";
+import { capsule, capsuleFiles } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
 import { getSession } from "@/lib/helper/get-session";
 import { and, eq } from "drizzle-orm";

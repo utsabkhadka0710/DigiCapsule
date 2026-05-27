@@ -310,7 +310,7 @@ const CreatePage = () => {
         alertDescription="Once created, this capsule cannot be edited. Please review the details to make sure everything is correct before continuing."
         alertActionText="Create Capsule"
         alertCancelText="Cancel"
-        actionButtonVarient="default"
+        actionButtonVariant="default"
         isLoading={isSubmitting}
         otherInfo="You can only preview the capsule after it's created, so make sure all the information is accurate."
         actionDelaySeconds={5}

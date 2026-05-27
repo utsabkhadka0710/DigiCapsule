@@ -15,7 +15,12 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AlertBox } from "@/components/ui/shared/alert-box";
 
-export function DropdownMenuIcons({ email }: { email: string }) {
+interface ProfileDropdownProps {
+  email: string;
+  image: string;
+}
+
+export function DropdownMenuIcons({ email, image }: ProfileDropdownProps) {
   const router = useRouter();
   const [isLogoutAlertOpen, setIsLogoutAlertOpen] = useState(false);
 
@@ -40,11 +45,11 @@ export function DropdownMenuIcons({ email }: { email: string }) {
         alertDescription="You will need to sign in again to access your account."
         alertActionText="Logout"
         alertCancelText="Cancel"
-        actionButtonVarient="destructive"
+        actionButtonVariant="destructive"
       />
       <DropdownMenuTrigger className="cursor-pointer">
         <Avatar>
-          <AvatarImage src={"https://github.com/shadcn.png"} />
+          <AvatarImage src={image} />
           <AvatarFallback>PP</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

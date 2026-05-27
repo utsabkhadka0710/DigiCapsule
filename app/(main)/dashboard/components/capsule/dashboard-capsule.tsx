@@ -162,7 +162,7 @@ const DashboardCapsule = ({
         alertDescription="Are you sure you want to delete this capsule? This action cannot be undone."
         alertActionText="Delete"
         alertCancelText="Cancel"
-        actionButtonVarient="destructive"
+        actionButtonVariant="destructive"
         isLoading={isDeleting}
         closeOnConfirm={false}
       />
