@@ -1,3 +1,5 @@
+"use client";
+
 import { Menu, X } from "lucide-react";
 import {
   Sheet,
@@ -10,6 +12,11 @@ import {
 } from "../ui/sheet";
 import { HamburgerMenuProps } from "@/lib/types/types";
 import HamburgerSignupButton from "./hamburger-signup-button";
+import { Button } from "../ui/button";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AlertBox } from "../ui/shared/alert-box";
 
 const HamburgerMenu = ({
   isSheetOpen,
@@ -19,6 +26,20 @@ const HamburgerMenu = ({
   loggedInNavItems,
   navItems,
 }: HamburgerMenuProps) => {
+  const router = useRouter();
+  const [isLogoutAlertOpen, setIsLogoutAlertOpen] = useState(false);
+
+  const handleLogout = async function () {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.replace("/");
+          router.refresh();
+        },
+      },
+    });
+  };
+
   return (
     <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger asChild>
@@ -46,16 +67,33 @@ const HamburgerMenu = ({
           <SheetTitle></SheetTitle>
           <SheetDescription></SheetDescription>
         </SheetHeader>
-        <div className="mt-7 items-center pt-2 md:hidden">
-          <div className="border-b p-4">
-            <div className="h-14 w-14 bg-gray-400 rounded-full">Avatar</div>
-          </div>
-
-          <ul className="pb-4 mt-4 border-b items-center font-bold text-lg flex flex-col gap-3">
+        <div className="mt-16 items-center pt-2 md:hidden">
+          <ul className="pb-4 border-b items-center font-bold text-lg flex flex-col gap-3">
             {session?.user
               ? renderNavItems(loggedInNavItems)
               : renderNavItems(navItems)}
           </ul>
+          {session?.user && (
+            <div className="pt-4 flex items-center justify-center">
+              <AlertBox
+                open={isLogoutAlertOpen}
+                onOpenChange={setIsLogoutAlertOpen}
+                onConfirm={handleLogout}
+                alertTitle="Log out?"
+                alertDescription="You will need to sign in again to access your account."
+                alertActionText="Logout"
+                alertCancelText="Cancel"
+                actionButtonVariant="destructive"
+              />
+              <Button
+                onClick={() => setIsLogoutAlertOpen(true)}
+                variant="destructive"
+                className="text-center py-2 font-bold text-lg cursor-pointer"
+              >
+                Logout
+              </Button>
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-center">
           {session?.user ? null : (
