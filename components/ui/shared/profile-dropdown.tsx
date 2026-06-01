@@ -17,12 +17,26 @@ import { AlertBox } from "@/components/ui/shared/alert-box";
 
 interface ProfileDropdownProps {
   email: string;
-  image: string;
+  name: string;
+  image?: string | null;
 }
 
-export function DropdownMenuIcons({ email, image }: ProfileDropdownProps) {
+export function DropdownMenuIcons({
+  email,
+  name,
+  image,
+}: ProfileDropdownProps) {
   const router = useRouter();
   const [isLogoutAlertOpen, setIsLogoutAlertOpen] = useState(false);
+  const nameLetter =
+    name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase())
+      .join("") ||
+    email[0]?.toUpperCase() ||
+    "U";
 
   const handleLogout = async function () {
     await authClient.signOut({
@@ -49,8 +63,8 @@ export function DropdownMenuIcons({ email, image }: ProfileDropdownProps) {
       />
       <DropdownMenuTrigger className="cursor-pointer">
         <Avatar>
-          <AvatarImage src={image} />
-          <AvatarFallback>PP</AvatarFallback>
+          {image ? <AvatarImage src={image} alt={name} /> : null}
+          <AvatarFallback>{nameLetter}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

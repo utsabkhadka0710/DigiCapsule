@@ -95,8 +95,9 @@ const Header = ({ session }: { session: AuthData | null }) => {
           {session?.user ? (
             <div className="rounded-full border-2 border-white h-9 w-9">
               <DropdownMenuIcons
+                name={session.user.name}
                 email={session.user.email}
-                image={session.user.image!}
+                image={session.user.image}
               />
             </div>
           ) : (
