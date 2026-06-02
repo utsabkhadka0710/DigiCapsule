@@ -23,6 +23,11 @@ export const auth = betterAuth({
       }),
     },
   },
+  user: {
+    deleteUser: {
+      enabled: true,
+    },
+  },
   plugins: [
     admin({ adminRoles: [adminRole], defaultRole: userRole }),
     nextCookies(),
