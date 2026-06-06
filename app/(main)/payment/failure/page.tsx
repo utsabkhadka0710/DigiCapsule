@@ -11,7 +11,7 @@ const FailurePage = () => {
 
   useEffect(() => {
     if (countdown === 0) {
-      router.replace("/settings/upgrade");
+      router.replace(process.env.RETURN_URL_AFTER_PAYMENT || "/plans");
       return;
     }
     const timer = setTimeout(() => setCountdown((c) => c - 1), 1000);
@@ -32,7 +32,9 @@ const FailurePage = () => {
           <span className="text-foreground font-semibold">{countdown}s</span>
         </p>
         <Button
-          onClick={() => router.replace("/settings/upgrade")}
+          onClick={() =>
+            router.replace(process.env.RETURN_URL_AFTER_PAYMENT || "/plans")
+          }
           className="text-sm text-text-secondary underline cursor-pointer underline-offset-4"
           variant={"ghost"}
         >

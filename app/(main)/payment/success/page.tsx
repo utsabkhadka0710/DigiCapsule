@@ -28,7 +28,7 @@ const SuccessPage = () => {
       const isPaymentSuccess = (await VerifyEsewaPayment(data)) as boolean;
 
       if (isPaymentSuccess) {
-        router.replace("/settings/upgrade");
+        router.replace(process.env.RETURN_URL_AFTER_PAYMENT || "/plans");
         return;
       }
 
