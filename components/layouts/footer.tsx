@@ -17,7 +17,7 @@ const Footer = () => {
 
         <div className="flex items-center text-xs gap-2 md:gap-4">
           <Link href={"/"}>Home</Link>
-          <Link href={"mailto:rijandhakal121@outlook.com"}>Contact</Link>
+          <Link href={"mailto:rijandhakal86@outlook.com"}>Contact</Link>
         </div>
 
         <div className="flex items-center justify-end gap-2 md:gap-4">

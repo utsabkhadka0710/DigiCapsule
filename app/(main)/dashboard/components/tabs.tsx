@@ -3,7 +3,6 @@ import { CapsuleType } from "@/lib/types/types";
 import { IoIosLock } from "react-icons/io";
 import { IoMdUnlock } from "react-icons/io";
 import DashboardCapsule from "./capsule/dashboard-capsule";
-import Search from "./search";
 import { GetCurrentPlan } from "@/actions/user-details";
 
 const triggers = [
@@ -48,8 +47,6 @@ const TabsComponent = async ({
             </TabsTrigger>
           ))}
         </TabsList>
-
-        <Search />
       </div>
 
       <div className="mt-4 border-b-2 border-white/20" />
