@@ -18,7 +18,6 @@ It is the kind of thing you would use to write a letter to your future self, sen
 - Locked capsule cannot be viewed by the creator also.
 - Send the capsule to a recipient by email
 - Add a hint so the recipient has a small clue but no spoilers
-- Optional password on the capsule
 - Sign in with Google
 - Admin role for managing users
 
@@ -44,18 +43,7 @@ It is the kind of thing you would use to write a letter to your future self, sen
 
 ### Environment Variables
 
-Rename `.env.sample` to `.env` in the project root with the following:
-
-```env
-DATABASE_URL=
-BETTER_AUTH_URL=
-BETTER_AUTH_SECRET=
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
-```
+Rename `.env.sample` to `.env` in the project root and use your details:
 
 ### Installation
 
