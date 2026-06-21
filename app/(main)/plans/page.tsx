@@ -79,7 +79,7 @@ const PricingSection = async () => {
   const currentPlan = resp.success ? resp.data : "free";
 
   return (
-    <div className="py-12 px-4 min-h-[calc(100vh-160px)] md:px-16 lg:px-40">
+    <div className="min-h-[calc(100vh-160px)] px-4 py-12 md:px-16 lg:px-40">
       {/* Section Header */}
       <div className="text-center mb-12">
         <p className="text-3xl font-bold">Pricing</p>
@@ -89,7 +89,7 @@ const PricingSection = async () => {
       </div>
 
       {/* Pricing Cards */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 items-stretch gap-6 md:grid-cols-3">
         {plans.map((plan) => {
           const Icon = plan.icon;
           const isCurrentPlan = currentPlan === plan.key;
@@ -101,7 +101,7 @@ const PricingSection = async () => {
             (!!plan.badge &&
               !(isPremiumCurrentPlan && plan.badge === "Most Popular"));
           return (
-            <div key={plan.name} className="relative">
+            <div key={plan.name} className="relative h-full">
               {/* Badge */}
               {shouldShowBadge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 px-2">
@@ -112,16 +112,16 @@ const PricingSection = async () => {
               )}
 
               <Card
-                className={`h-full flex flex-col transition-colors ${
+                className={`flex h-full flex-col rounded-2xl border transition-all ${
                   shouldDisableCard
-                    ? "border-border-dark bg-surface-dark opacity-70"
+                    ? "border-border-dark bg-surface-dark/90 opacity-75"
                     : plan.highlighted
                       ? "border-primary/60 bg-surface-dark shadow-lg shadow-primary/10"
                       : "border-border-dark bg-surface-dark"
                 }`}
               >
-                <CardHeader>
-                  <div className="flex items-center gap-2 mb-1">
+                <CardHeader className="space-y-4">
+                  <div className="flex items-center gap-2">
                     {Icon && (
                       <Icon
                         className="text-primary shrink-0"
@@ -134,24 +134,24 @@ const PricingSection = async () => {
                     </CardTitle>
                   </div>
 
-                  <div className="flex items-end gap-1.5 mt-2">
-                    <span className="text-4xl font-extrabold tracking-tight min-w-fit">
+                  <div className="flex items-end gap-1.5">
+                    <span className="min-w-fit text-4xl font-extrabold leading-none tracking-tight">
                       {currentPlan === "basic" && plan.key === "premium"
-                        ? plans[2].priceAmount - plans[1].priceAmount
+                        ? `Rs ${plans[2].priceAmount - plans[1].priceAmount}`
                         : plan.price}
                     </span>
-                    <span className="text-text-secondary text-sm mb-1.5 whitespace-nowrap">
+                    <span className="mb-1 whitespace-nowrap text-sm text-text-secondary">
                       /{plan.period}
                     </span>
                   </div>
 
-                  <CardDescription className="mt-2 text-text-secondary text-sm leading-relaxed">
+                  <CardDescription className="text-sm leading-relaxed text-text-secondary">
                     {plan.description}
                   </CardDescription>
                 </CardHeader>
 
-                <CardContent className="flex-1">
-                  <div className="h-px w-full bg-border-dark mb-5" />
+                <CardContent className="flex-1 pt-0">
+                  <div className="mb-5 h-px w-full bg-border-dark" />
                   <ul className="space-y-3">
                     {plan.features.map((feature) => (
                       <li key={feature} className="flex items-start gap-3">
@@ -168,7 +168,7 @@ const PricingSection = async () => {
                   </ul>
                 </CardContent>
 
-                <CardFooter className="mt-2">
+                <CardFooter className="mt-auto pt-0">
                   <CardButton
                     isCurrentPlan={isCurrentPlan}
                     shouldDisableCard={shouldDisableCard}
@@ -186,9 +186,25 @@ const PricingSection = async () => {
         })}
       </div>
 
-      <p className="text-center text-xs text-text-secondary mt-8">
-        No payment method required for Free plan.
-      </p>
+      <div className="max-w-md mx-auto mt-8">
+        <Card className="rounded-2xl border-border-dark bg-surface-dark/90">
+          <CardContent className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <p className="font-semibold">Demo Credentials</p>
+            </div>
+
+            <p className="text-sm text-text-secondary">
+              Use these to test premium features.
+            </p>
+
+            <pre className="mt-2 whitespace-pre-wrap bg-[rgba(255,255,255,0.02)] p-3 rounded-md text-sm font-mono text-foreground/90">
+              {`Mobile Number: 9806800005
+Password: Nepal@123
+OTP: 123456`}
+            </pre>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
