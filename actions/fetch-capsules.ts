@@ -2,6 +2,7 @@
 
 import { capsule, capsuleFiles } from "@/lib/database/schema";
 import { db } from "@/lib/db-edge";
+import { decrypt } from "@/lib/encryption";
 import { getSession } from "@/lib/helper/get-session";
 import { and, eq } from "drizzle-orm";
 
@@ -78,6 +79,14 @@ export const GetCapsuleFromId = async ({
         and(eq(capsule.id, capsuleId), eq(capsule.userId, session.user.id)),
       );
 
+    if (fetchedCapsule) {
+      fetchedCapsule.forEach((capsuleItem) => {
+        if (capsuleItem.content) {
+          capsuleItem.content = decrypt(capsuleItem.content);
+        }
+      });
+    }
+
     return {
       success: true,
       data: fetchedCapsule,
@@ -144,6 +153,10 @@ export const GetCapsuleByLink = async ({
 
     if (capsuleItem.accessKey !== key) {
       return { success: false, message: "Invalid access key" };
+    }
+
+    if (capsuleItem.content) {
+      capsuleItem.content = decrypt(capsuleItem.content);
     }
 
     return {

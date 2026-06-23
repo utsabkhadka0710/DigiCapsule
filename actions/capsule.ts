@@ -7,6 +7,7 @@ import { ServerCapsuleSchema } from "@/lib/validators/capsules";
 import { revalidatePath } from "next/cache";
 import { eq, and, sql } from "drizzle-orm";
 import { sendMail } from "@/lib/mailer";
+import { encrypt } from "@/lib/encryption";
 
 const CAPSULE_LIMITS = {
   free: 4,
@@ -61,10 +62,19 @@ export async function CreateCapsuleAction(data: unknown) {
       };
     }
 
+    const encryptedContent = encrypt(capsuleData.content);
+
+    const { content, ...restCapsuleData } = capsuleData;
+
+    const capsuleDataWithEncryption = {
+      ...restCapsuleData,
+      content: encryptedContent,
+    };
+
     const createdCapsule = await db
       .insert(capsule)
       .values({
-        ...capsuleData,
+        ...capsuleDataWithEncryption,
         userId: session.user.id,
         creatorName: session.user.name || "Someone",
         accessKey,
